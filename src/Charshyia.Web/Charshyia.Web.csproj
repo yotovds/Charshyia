@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Charshyia.Data\Charshyia.Data.csproj" />
+    <ProjectReference Include="..\Charshyia.Services\Charshyia.Services.csproj" />
   </ItemGroup>
 
 </Project>

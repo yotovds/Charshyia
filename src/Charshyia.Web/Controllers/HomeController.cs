@@ -7,20 +7,19 @@ using Microsoft.AspNetCore.Mvc;
 using Charshyia.Web.Models;
 using Charshyia.Data.Models;
 using Microsoft.AspNetCore.Identity;
+using Charshyia.Services.Contracts;
 
 namespace Charshyia.Web.Controllers
 {
     public class HomeController : BaseController
     {
-        public HomeController(UserManager<CharshyiaUser> userManager) 
-            : base(userManager)
+        public HomeController(UserManager<CharshyiaUser> userManager, IDbService dbService) 
+            : base(userManager, dbService)
         {
         }
 
         public IActionResult Index()
         {
-            var test = this.CurrentUser;
-            this.ViewData["test"] = test;
             return View();
         }
 

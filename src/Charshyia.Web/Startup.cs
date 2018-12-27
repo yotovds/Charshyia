@@ -1,5 +1,7 @@
 ﻿using Charshyia.Data;
 using Charshyia.Data.Models;
+using Charshyia.Services;
+using Charshyia.Services.Contracts;
 using Charshyia.Web.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -51,8 +53,10 @@ namespace Charshyia.Web
                 options.Password.RequireUppercase = false;
             });
 
-            services.AddMvc();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            // My services
+            services.AddScoped<IDbService, DbService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
