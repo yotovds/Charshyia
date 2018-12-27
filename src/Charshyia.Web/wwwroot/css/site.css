@@ -3,6 +3,8 @@ for details on configuring this project to bundle and minify static web assets. 
 body {
     /*padding-top: 50px;
     padding-bottom: 20px;*/
+    background-color: #343a40;
+    color: lightgray;
 }
 
 /* Wrapping element */
@@ -54,4 +56,16 @@ body {
 
 .logo-green {
     color: green;
+}
+
+.nav-link {
+    color: lightgray;
+}
+
+    .nav-link:hover {
+        color: #7facdd;
+    }
+
+.btn-link {
+    color: #b6d3f1;
 }

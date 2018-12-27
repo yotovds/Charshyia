@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Threading.Tasks;
 
 namespace Charshyia.Web
 {
@@ -55,6 +56,8 @@ namespace Charshyia.Web
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
+            
+
             // My services
             services.AddScoped<IDbService, DbService>();
         }
@@ -85,6 +88,31 @@ namespace Charshyia.Web
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            // Add amin and user roles
+            this.CreateUserRoles(services).GetAwaiter().GetResult();
+        }
+
+        private async Task CreateUserRoles(IServiceProvider serviceProvider)
+        {
+            var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            //var UserManager = serviceProvider.GetRequiredService<UserManager<CharshyiaUser>>();
+
+            //IdentityResult roleResult;
+            //Adding Admin Role
+            //var roleCheck = await RoleManager.RoleExistsAsync("Admin");
+            if (await RoleManager.Roles.AnyAsync() == false)
+            {
+                //create the roles and seed them to the database
+                await RoleManager.CreateAsync(new IdentityRole("Admin"));
+                await RoleManager.CreateAsync(new IdentityRole("User"));
+            }
+
+            //Assign Admin role to the main User here we have given our newly registered 
+            //login id for Admin management
+            //CharshyiaUser user = await UserManager.FindByEmailAsync("syedshanumcain@gmail.com");
+            //var User = new CharshyiaUser();
+            //await UserManager.AddToRoleAsync(user, "Admin");
         }
     }
 }

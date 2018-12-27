@@ -20,6 +20,7 @@ namespace Charshyia.Web.Areas.Identity.Pages.Account
         private readonly SignInManager<CharshyiaUser> _signInManager;
         private readonly UserManager<CharshyiaUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
+
         //private readonly IEmailSender _emailSender;
 
         public RegisterModel(
@@ -74,6 +75,7 @@ namespace Charshyia.Web.Areas.Identity.Pages.Account
             {
                 var user = new CharshyiaUser { UserName = Input.Username, Email = Input.Email };
                 var result = await _userManager.CreateAsync(user, Input.Password);
+                await this._userManager.AddToRoleAsync(user, "User");
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
