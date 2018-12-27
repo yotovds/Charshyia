@@ -5,11 +5,18 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Charshyia.Web.Models;
+using Charshyia.Data.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace Charshyia.Web.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
+        public HomeController(UserManager<CharshyiaUser> userManager) 
+            : base(userManager)
+        {
+        }
+
         public IActionResult Index()
         {
             return View();

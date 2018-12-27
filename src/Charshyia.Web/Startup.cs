@@ -40,9 +40,16 @@ namespace Charshyia.Web
                     .AddEntityFrameworkStores<CharshyiaDbContext>()
                     .AddDefaultTokenProviders();
 
-            //services.AddIdentity<CharshyiaUser, IdentityRole>()
-            //    .AddEntityFrameworkStores<CharshyiaDbContext>()
-            //    .AddDefaultTokenProviders();
+            services.Configure<IdentityOptions>(options =>
+            {
+                options.SignIn.RequireConfirmedEmail = false;
+                options.Password.RequireDigit = false;
+                options.Password.RequiredLength = 3;
+                options.Password.RequiredUniqueChars = 0;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+            });
 
             services.AddMvc();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
