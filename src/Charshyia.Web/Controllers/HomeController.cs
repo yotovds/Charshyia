@@ -19,6 +19,8 @@ namespace Charshyia.Web.Controllers
 
         public IActionResult Index()
         {
+            var test = this.CurrentUser;
+            this.ViewData["test"] = test;
             return View();
         }
 

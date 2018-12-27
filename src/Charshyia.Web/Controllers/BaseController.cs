@@ -16,5 +16,13 @@ namespace Charshyia.Web.Controllers
         {
             this.userManager = userManager;
         }
+
+        protected CharshyiaUser CurrentUser
+        {
+             get
+            {
+                return this.userManager.GetUserAsync(this.User).GetAwaiter().GetResult();
+            }
+        }
     }
 }
