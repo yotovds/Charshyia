@@ -1,8 +1,8 @@
 ﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification\ 
 for details on configuring this project to bundle and minify static web assets. */
 body {
-    padding-top: 50px;
-    padding-bottom: 20px;
+    /*padding-top: 50px;
+    padding-bottom: 20px;*/
 }
 
 /* Wrapping element */
@@ -34,4 +34,24 @@ body {
     .carousel-caption {
         display: none;
     }
+}
+
+/* My CSS */
+.charshyia-nav-logo {
+    font-family: mirosln;
+    font-size: 1em;
+    letter-spacing: 0.1em;
+}
+
+@font-face {
+    font-family: 'mirosln';
+    src: url('../lib/bootstrap/dist/fonts/mirosln.ttf') format('truetype');
+}
+
+.logo-red {
+    color: red;
+}
+
+.logo-green {
+    color: green;
 }
