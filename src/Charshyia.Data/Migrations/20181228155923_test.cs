@@ -153,6 +153,95 @@ namespace Charshyia.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Products",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(nullable: true),
+                    Price = table.Column<decimal>(nullable: false),
+                    ProducerId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Products", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Products_AspNetUsers_ProducerId",
+                        column: x => x.ProducerId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Shops",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(nullable: true),
+                    FounderId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Shops", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Shops_AspNetUsers_FounderId",
+                        column: x => x.FounderId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ShopProduct",
+                columns: table => new
+                {
+                    ProductId = table.Column<int>(nullable: false),
+                    ShopId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ShopProduct", x => new { x.ProductId, x.ShopId });
+                    table.ForeignKey(
+                        name: "FK_ShopProduct_Products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ShopProduct_Shops_ShopId",
+                        column: x => x.ShopId,
+                        principalTable: "Shops",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ShopUser",
+                columns: table => new
+                {
+                    ProducerId = table.Column<string>(nullable: false),
+                    ShopId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ShopUser", x => new { x.ProducerId, x.ShopId });
+                    table.ForeignKey(
+                        name: "FK_ShopUser_AspNetUsers_ProducerId",
+                        column: x => x.ProducerId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ShopUser_Shops_ShopId",
+                        column: x => x.ShopId,
+                        principalTable: "Shops",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -191,6 +280,26 @@ namespace Charshyia.Data.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Products_ProducerId",
+                table: "Products",
+                column: "ProducerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ShopProduct_ShopId",
+                table: "ShopProduct",
+                column: "ShopId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Shops_FounderId",
+                table: "Shops",
+                column: "FounderId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ShopUser_ShopId",
+                table: "ShopUser",
+                column: "ShopId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -211,7 +320,19 @@ namespace Charshyia.Data.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "ShopProduct");
+
+            migrationBuilder.DropTable(
+                name: "ShopUser");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "Products");
+
+            migrationBuilder.DropTable(
+                name: "Shops");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

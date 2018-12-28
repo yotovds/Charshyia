@@ -70,6 +70,68 @@ namespace Charshyia.Data.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("Charshyia.Data.Models.Product", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name");
+
+                    b.Property<decimal>("Price");
+
+                    b.Property<string>("ProducerId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProducerId");
+
+                    b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("Charshyia.Data.Models.Shop", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("FounderId");
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FounderId");
+
+                    b.ToTable("Shops");
+                });
+
+            modelBuilder.Entity("Charshyia.Data.Models.ShopProduct", b =>
+                {
+                    b.Property<int>("ProductId");
+
+                    b.Property<int>("ShopId");
+
+                    b.HasKey("ProductId", "ShopId");
+
+                    b.HasIndex("ShopId");
+
+                    b.ToTable("ShopProduct");
+                });
+
+            modelBuilder.Entity("Charshyia.Data.Models.ShopUser", b =>
+                {
+                    b.Property<string>("ProducerId");
+
+                    b.Property<int>("ShopId");
+
+                    b.HasKey("ProducerId", "ShopId");
+
+                    b.HasIndex("ShopId");
+
+                    b.ToTable("ShopUser");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -178,6 +240,46 @@ namespace Charshyia.Data.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("Charshyia.Data.Models.Product", b =>
+                {
+                    b.HasOne("Charshyia.Data.Models.CharshyiaUser", "Producer")
+                        .WithMany("Products")
+                        .HasForeignKey("ProducerId");
+                });
+
+            modelBuilder.Entity("Charshyia.Data.Models.Shop", b =>
+                {
+                    b.HasOne("Charshyia.Data.Models.CharshyiaUser", "Founder")
+                        .WithMany()
+                        .HasForeignKey("FounderId");
+                });
+
+            modelBuilder.Entity("Charshyia.Data.Models.ShopProduct", b =>
+                {
+                    b.HasOne("Charshyia.Data.Models.Product", "Product")
+                        .WithMany("Shops")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Charshyia.Data.Models.Shop", "Shop")
+                        .WithMany("Products")
+                        .HasForeignKey("ShopId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Charshyia.Data.Models.ShopUser", b =>
+                {
+                    b.HasOne("Charshyia.Data.Models.CharshyiaUser", "Producer")
+                        .WithMany("Shops")
+                        .HasForeignKey("ProducerId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Charshyia.Data.Models.Shop", "Shop")
+                        .WithMany("Producers")
+                        .HasForeignKey("ShopId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

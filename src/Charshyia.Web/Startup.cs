@@ -1,8 +1,9 @@
-﻿using Charshyia.Data;
+﻿using AutoMapper;
+using Charshyia.Data;
 using Charshyia.Data.Models;
 using Charshyia.Services;
 using Charshyia.Services.Contracts;
-using Charshyia.Web.Models;
+using Charshyia.Services.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -56,10 +57,13 @@ namespace Charshyia.Web
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
-            
+            services.AddAutoMapper(configuration =>
+            {
+                configuration.CreateMap<ProductCreateInputModel, Product>();
+            });
 
             // My services
-            services.AddScoped<IDbService, DbService>();
+            services.AddScoped<IProductService, ProductService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

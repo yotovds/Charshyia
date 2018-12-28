@@ -16,8 +16,34 @@ namespace Charshyia.Data
         {
         }
 
+        public DbSet<Product> Products { get; set; }
+
+        public DbSet<Shop> Shops { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            builder.Entity<ShopProduct>()
+                .HasKey(sp => new { sp.ProductId, sp.ShopId });
+            builder.Entity<ShopProduct>()
+                .HasOne(sp => sp.Product)
+                .WithMany(p => p.Shops)
+                .HasForeignKey(sp => sp.ProductId);
+            builder.Entity<ShopProduct>()
+                .HasOne(sp => sp.Shop)
+                .WithMany(s => s.Products)
+                .HasForeignKey(sp => sp.ShopId);
+
+            builder.Entity<ShopUser>()
+                .HasKey(su => new { su.ProducerId, su.ShopId });
+            builder.Entity<ShopUser>()
+                .HasOne(su => su.Producer)
+                .WithMany(u => u.Shops)
+                .HasForeignKey(su => su.ProducerId);
+            builder.Entity<ShopUser>()
+                .HasOne(su => su.Shop)
+                .WithMany(s => s.Producers)
+                .HasForeignKey(su => su.ShopId);
+
             base.OnModelCreating(builder);
             // Customize the ASP.NET Identity model and override the defaults if needed.
             // For example, you can rename the ASP.NET Identity table names and more.

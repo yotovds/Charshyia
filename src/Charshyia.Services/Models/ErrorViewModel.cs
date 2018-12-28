@@ -1,6 +1,6 @@
 using System;
 
-namespace Charshyia.Web.Models
+namespace Charshyia.Services.Models
 {
     public class ErrorViewModel
     {

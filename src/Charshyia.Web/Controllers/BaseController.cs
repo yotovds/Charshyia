@@ -12,12 +12,10 @@ namespace Charshyia.Web.Controllers
     public abstract class BaseController : Controller
     {
         protected readonly UserManager<CharshyiaUser> userManager;
-        protected readonly IDbService dbService;
 
-        protected BaseController(UserManager<CharshyiaUser> userManager, IDbService dbService)
+        protected BaseController(UserManager<CharshyiaUser> userManager)
         {
             this.userManager = userManager;
-            this.dbService = dbService; // TODO: Make it Property
         }
 
         protected CharshyiaUser CurrentUser
