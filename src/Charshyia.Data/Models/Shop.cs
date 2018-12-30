@@ -10,6 +10,7 @@ namespace Charshyia.Data.Models
         {
             this.Products = new HashSet<ShopProduct>();
             this.Producers = new HashSet<ShopUser>();
+            this.Comments = new HashSet<ShopComment>();
         }
 
         public int Id { get; set; }
@@ -23,5 +24,7 @@ namespace Charshyia.Data.Models
         public ICollection<ShopProduct> Products { get; set; }
 
         public ICollection<ShopUser> Producers { get; set; }
+
+        public ICollection<ShopComment> Comments { get; set; }
     }
 }

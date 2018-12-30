@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Charshyia.Data.Migrations
 {
     [DbContext(typeof(CharshyiaDbContext))]
-    [Migration("20181228155923_test")]
-    partial class test
+    [Migration("20181229133639_testqw")]
+    partial class testqw
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -78,6 +78,8 @@ namespace Charshyia.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("Description");
+
                     b.Property<string>("Name");
 
                     b.Property<decimal>("Price");
@@ -89,6 +91,23 @@ namespace Charshyia.Data.Migrations
                     b.HasIndex("ProducerId");
 
                     b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("Charshyia.Data.Models.ProductComment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Content");
+
+                    b.Property<int>("ProductId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("ProductComments");
                 });
 
             modelBuilder.Entity("Charshyia.Data.Models.Shop", b =>
@@ -106,6 +125,23 @@ namespace Charshyia.Data.Migrations
                     b.HasIndex("FounderId");
 
                     b.ToTable("Shops");
+                });
+
+            modelBuilder.Entity("Charshyia.Data.Models.ShopComment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CommentContent");
+
+                    b.Property<int>("ShopId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ShopId");
+
+                    b.ToTable("ShopComments");
                 });
 
             modelBuilder.Entity("Charshyia.Data.Models.ShopProduct", b =>
@@ -251,11 +287,27 @@ namespace Charshyia.Data.Migrations
                         .HasForeignKey("ProducerId");
                 });
 
+            modelBuilder.Entity("Charshyia.Data.Models.ProductComment", b =>
+                {
+                    b.HasOne("Charshyia.Data.Models.Product", "Product")
+                        .WithMany("Comments")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("Charshyia.Data.Models.Shop", b =>
                 {
                     b.HasOne("Charshyia.Data.Models.CharshyiaUser", "Founder")
                         .WithMany()
                         .HasForeignKey("FounderId");
+                });
+
+            modelBuilder.Entity("Charshyia.Data.Models.ShopComment", b =>
+                {
+                    b.HasOne("Charshyia.Data.Models.Shop", "Shop")
+                        .WithMany("Comments")
+                        .HasForeignKey("ShopId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Charshyia.Data.Models.ShopProduct", b =>

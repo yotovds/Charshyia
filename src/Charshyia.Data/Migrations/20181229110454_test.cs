@@ -161,6 +161,7 @@ namespace Charshyia.Data.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(nullable: true),
                     Price = table.Column<decimal>(nullable: false),
+                    Description = table.Column<string>(nullable: true),
                     ProducerId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -192,6 +193,46 @@ namespace Charshyia.Data.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ProductComments",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    ProductId = table.Column<int>(nullable: false),
+                    Content = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProductComments", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ProductComments_Products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ShopComments",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    ShopId = table.Column<int>(nullable: false),
+                    CommentContent = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ShopComments", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ShopComments_Shops_ShopId",
+                        column: x => x.ShopId,
+                        principalTable: "Shops",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -282,9 +323,19 @@ namespace Charshyia.Data.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ProductComments_ProductId",
+                table: "ProductComments",
+                column: "ProductId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Products_ProducerId",
                 table: "Products",
                 column: "ProducerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ShopComments_ShopId",
+                table: "ShopComments",
+                column: "ShopId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ShopProduct_ShopId",
@@ -318,6 +369,12 @@ namespace Charshyia.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "ProductComments");
+
+            migrationBuilder.DropTable(
+                name: "ShopComments");
 
             migrationBuilder.DropTable(
                 name: "ShopProduct");

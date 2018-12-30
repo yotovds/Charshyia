@@ -1,0 +1,28 @@
+﻿@model Charshyia.Services.Models.Shops.ShopDetailsViewModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Shop Details</h1>
+
+<p>Name: @Model.Name</p>
+<h3>Producers:</h3>
+@foreach (var producer in Model.Producers)
+{
+    <p>@producer.Username</p>
+}
+
+<hr/>
+
+<h3>Products</h3>
+
+@foreach (var product in Model.Products)
+{
+    <p>@product.Name</p>
+    <p>@product.Id</p>
+}
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

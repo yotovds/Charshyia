@@ -5,8 +5,12 @@ using Charshyia.Services.Contracts;
 using Charshyia.Services.Models;
 using Charshyia.Services.Models.Products;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using Charshyia.Services.Models.Shops;
 
 namespace Charshyia.Services
 {
@@ -17,22 +21,27 @@ namespace Charshyia.Services
         {
         }
 
-        //public int AddProduct(ProductCreateInputModel inputModel, string producerId)
-        //{
-        //    var product = this.mapper.Map<Product>(inputModel);
-        //    product.ProducerId = producerId;
-        //    this.context.Products.Add(product);
-        //    this.context.SaveChanges();
+        public async Task<int> AddProductAsync(ProductCreateInputModel inputModel, string producerId)
+        {
+            var product = this.Mapper.Map<Product>(inputModel);
+            product.ProducerId = producerId;
+            await this.DbContext.Products.AddAsync(product);
+            await this.DbContext.SaveChangesAsync();
 
-        //    return product.Id;
-        //}
+            return product.Id;
+        }
 
-        //public ProductDetailsViewModel GetProductById(int productId)
-        //{
-        //    var product = this.context.Products.Find(productId);
-        //    var viewModel = this.mapper.Map<ProductDetailsViewModel>(product);
+        public async Task<ProductDetailsViewModel> GetProductByIdAsync(int productId)
+        {
+            var product = await this.DbContext
+                .Products
+                .Include(p => p.Producer)
+                .Where(p => p.Id == productId)
+                .FirstOrDefaultAsync();
 
-        //    return viewModel;
-        //}
+            var viewModel = this.Mapper.Map<ProductDetailsViewModel>(product);
+
+            return viewModel;
+        }
     }
 }

@@ -8,8 +8,8 @@ namespace Charshyia.Services
 {
     public abstract class BaseService
     {
-        protected readonly CharshyiaDbContext context;
-        protected readonly IMapper mapper;
+        private readonly CharshyiaDbContext context;
+        private readonly IMapper mapper;
 
         protected BaseService(CharshyiaDbContext context, IMapper mapper)
         {

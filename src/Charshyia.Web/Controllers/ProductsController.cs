@@ -6,6 +6,7 @@ using AutoMapper;
 using Charshyia.Data.Models;
 using Charshyia.Services.Contracts;
 using Charshyia.Services.Models;
+using Charshyia.Services.Models.Products;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -29,13 +30,18 @@ namespace Charshyia.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(ProductCreateInputModel inputModel)
-        {
-            //var product = this.mapper.Map<Product>(inputModel);
-            //this.productsService.AddProduct(inputModel, CurrentUser.Id);
+        public async Task<IActionResult> Create(ProductCreateInputModel inputModel)
+        {            
+           var productId = await this.productsService.AddProductAsync(inputModel, CurrentUser.Id);
 
             //var viewModel = this.productsService.GetProductById(3);
-            return this.View();
+            return RedirectToAction("Details", new { id = productId });
+        }
+
+        public async Task<IActionResult> Details(int id)
+        {
+            var viewModel = await this.productsService.GetProductByIdAsync(id);
+            return this.View(viewModel);
         }
     }
 }

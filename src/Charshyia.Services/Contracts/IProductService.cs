@@ -4,13 +4,14 @@ using Charshyia.Services.Models.Products;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Charshyia.Services.Contracts
 {
     public interface IProductService
     {
-        //int AddProduct(ProductCreateInputModel inputModel, string producerId);
+        Task<int> AddProductAsync(ProductCreateInputModel inputModel, string producerId);
 
-        //ProductDetailsViewModel GetProductById(int productId);
+        Task<ProductDetailsViewModel> GetProductByIdAsync(int productId);
     }
 }

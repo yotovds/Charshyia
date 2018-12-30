@@ -20,6 +20,12 @@ namespace Charshyia.Data
 
         public DbSet<Shop> Shops { get; set; }
 
+        //public DbSet<ShopProduct> ShopProduct { get; set; }
+
+        public DbSet<ProductComment> ProductComments { get; set; }
+
+        public DbSet<ShopComment> ShopComments { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<ShopProduct>()
@@ -43,6 +49,14 @@ namespace Charshyia.Data
                 .HasOne(su => su.Shop)
                 .WithMany(s => s.Producers)
                 .HasForeignKey(su => su.ShopId);
+
+            builder.Entity<Product>()
+                .HasMany(p => p.Comments)
+                .WithOne(c => c.Product);
+
+            builder.Entity<Shop>()
+                .HasMany(s => s.Comments)
+                .WithOne(c => c.Shop);
 
             base.OnModelCreating(builder);
             // Customize the ASP.NET Identity model and override the defaults if needed.
