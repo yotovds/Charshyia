@@ -1,0 +1,29 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Charshyia.Data.Models
+{
+    public class  Partnership
+    {
+        public int Id { get; set; }
+
+        public string FromUserId { get; set; }
+        public CharshyiaUser FromUser { get; set; }
+
+        public string ToUserId { get; set; }
+        public CharshyiaUser ToUser { get; set; }
+
+        public int ShopId { get; set; }
+        public Shop Shop { get; set; }
+
+        public PartnershipStatus Status { get; set; }
+    }
+
+    public enum PartnershipStatus
+    {
+        Send = 1,
+        WaitingToResponse = 2,
+        Accepted = 3
+    }
+}

@@ -8,19 +8,28 @@ using Charshyia.Services.Models;
 using Charshyia.Data.Models;
 using Microsoft.AspNetCore.Identity;
 using Charshyia.Services.Contracts;
+using Charshyia.Services.Models.Users;
+using Charshyia.Services.Models.Home;
 
 namespace Charshyia.Web.Controllers
 {
     public class HomeController : BaseController
     {
-        public HomeController(UserManager<CharshyiaUser> userManager) 
+        private readonly IUserService userService;
+
+        public HomeController(UserManager<CharshyiaUser> userManager, IUserService userService) 
             : base(userManager)
         {
+            this.userService = userService;
         }
 
         public IActionResult Index()
         {
-            return View();
+            var viewModel = new HomeIndexViewModel
+            {
+                UserDetails = this.userService.GetUserViewModel(CurrentUser)
+            };
+            return View(viewModel);
         }
 
         public IActionResult About()

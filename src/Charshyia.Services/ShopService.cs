@@ -45,6 +45,13 @@ namespace Charshyia.Services
                 .Where(s => s.Id == shopId)
                 .FirstOrDefaultAsync();
 
+            //var ppp = this.Mapper
+            //         .Map<List<CharshyiaUser>>(shop.Producers.Select(x => x.Producer))
+            //         .ToList();
+
+            //var asdas = this.Mapper
+            //        .Map<List<UserDetailsViewModel>>(ppp);
+
             var viewModel = new ShopDetailsViewModel
             {
                 Id = shop.Id,
@@ -53,11 +60,27 @@ namespace Charshyia.Services
                     .Map<List<ProductDetailsViewModel>>(shop.Products.Select(x => x.Product))
                     .ToList(),
                 Producers = this.Mapper
-                    .Map<List<UserDetailsViewModel>>(shop.Producers.Select(x => x.Producer))
-                    .ToList()
+                    .Map<List<UserDetailsViewModel>>(this.Mapper
+                        .Map<List<CharshyiaUser>>(shop.Producers.Select(x => x.Producer))
+                        .ToList())
             };
 
             return viewModel;
+        }
+
+        public async Task CreatePartnershipRequest(CharshyiaUser fromUser, CharshyiaUser toUser, int shopId)
+        {
+            await this.DbContext
+                .Partnerships
+                .AddAsync( new Partnership
+                    {
+                        FromUser = fromUser,
+                        ToUser = toUser,
+                        ShopId = shopId,
+                        Status = PartnershipStatus.Send
+                    });
+
+            await this.DbContext.SaveChangesAsync();
         }
     }
 }

@@ -216,6 +216,40 @@ namespace Charshyia.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Partnerships",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    FromUserId = table.Column<string>(nullable: true),
+                    ToUserId = table.Column<string>(nullable: true),
+                    ShopId = table.Column<int>(nullable: false),
+                    Status = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Partnerships", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Partnerships_AspNetUsers_FromUserId",
+                        column: x => x.FromUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Partnerships_Shops_ShopId",
+                        column: x => x.ShopId,
+                        principalTable: "Shops",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Partnerships_AspNetUsers_ToUserId",
+                        column: x => x.ToUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ShopComments",
                 columns: table => new
                 {
@@ -323,6 +357,21 @@ namespace Charshyia.Data.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Partnerships_FromUserId",
+                table: "Partnerships",
+                column: "FromUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Partnerships_ShopId",
+                table: "Partnerships",
+                column: "ShopId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Partnerships_ToUserId",
+                table: "Partnerships",
+                column: "ToUserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ProductComments_ProductId",
                 table: "ProductComments",
                 column: "ProductId");
@@ -369,6 +418,9 @@ namespace Charshyia.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "Partnerships");
 
             migrationBuilder.DropTable(
                 name: "ProductComments");

@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Charshyia.Data.Migrations
 {
     [DbContext(typeof(CharshyiaDbContext))]
-    [Migration("20181229133639_testqw")]
-    partial class testqw
+    [Migration("20181230160135_test")]
+    partial class test
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -70,6 +70,31 @@ namespace Charshyia.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
+                });
+
+            modelBuilder.Entity("Charshyia.Data.Models.Partnership", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("FromUserId");
+
+                    b.Property<int>("ShopId");
+
+                    b.Property<int>("Status");
+
+                    b.Property<string>("ToUserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FromUserId");
+
+                    b.HasIndex("ShopId");
+
+                    b.HasIndex("ToUserId");
+
+                    b.ToTable("Partnerships");
                 });
 
             modelBuilder.Entity("Charshyia.Data.Models.Product", b =>
@@ -278,6 +303,22 @@ namespace Charshyia.Data.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("Charshyia.Data.Models.Partnership", b =>
+                {
+                    b.HasOne("Charshyia.Data.Models.CharshyiaUser", "FromUser")
+                        .WithMany()
+                        .HasForeignKey("FromUserId");
+
+                    b.HasOne("Charshyia.Data.Models.Shop", "Shop")
+                        .WithMany()
+                        .HasForeignKey("ShopId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Charshyia.Data.Models.CharshyiaUser", "ToUser")
+                        .WithMany()
+                        .HasForeignKey("ToUserId");
                 });
 
             modelBuilder.Entity("Charshyia.Data.Models.Product", b =>

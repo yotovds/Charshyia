@@ -1,0 +1,37 @@
+﻿@model Charshyia.Services.Models.Home.HomeIndexViewModel
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+<div class="row">
+    <div class="col-sm-3 col-md-2 hidden-xs-down bg-faded sidebar">
+        <ul class="nav nav-pills flex-column">
+            <li class="nav-item">
+                <a asp-controller="Products" asp-action="Create" class="nav-link">Create Product</a>
+            </li>
+            <li class="nav-item">
+                <a asp-controller="Shops" asp-action="Create" class="nav-link">Create Shop</a>
+            </li>
+        </ul>
+    </div>
+
+    <p>@Model.UserDetails.Username</p>
+
+    <div class="d-inline">
+        <div>
+            Products
+        </div>
+        <div>
+            Shops
+        </div>
+
+        <div>
+            <h3>Notifications:</h3>
+            @foreach (var notification in Model.UserDetails.Partnerships)
+            {
+                <p>From @notification.FromUser in @notification.Shop.Name</p>
+            }
+        </div>
+    </div>
+</div>
+

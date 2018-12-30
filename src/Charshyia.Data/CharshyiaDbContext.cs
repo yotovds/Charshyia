@@ -26,6 +26,8 @@ namespace Charshyia.Data
 
         public DbSet<ShopComment> ShopComments { get; set; }
 
+        public DbSet<Partnership> Partnerships { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<ShopProduct>()

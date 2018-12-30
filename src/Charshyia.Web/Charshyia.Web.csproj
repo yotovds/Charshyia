@@ -19,6 +19,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="Views\Home\_LoggedInIndex.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Views\Shops\Details.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>

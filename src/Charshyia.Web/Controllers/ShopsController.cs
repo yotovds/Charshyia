@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Charshyia.Data.Models;
+﻿using Charshyia.Data.Models;
 using Charshyia.Services.Contracts;
 using Charshyia.Services.Models.Shops;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace Charshyia.Web.Controllers
 {
@@ -14,7 +11,7 @@ namespace Charshyia.Web.Controllers
     {
         private readonly IShopService shopService;
 
-        public ShopsController(UserManager<CharshyiaUser> userManager, IShopService shopService) 
+        public ShopsController(UserManager<CharshyiaUser> userManager, IShopService shopService)
             : base(userManager)
         {
             this.shopService = shopService;
@@ -28,7 +25,7 @@ namespace Charshyia.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(ShopCreateInputModel inputModel)
         {
-            var shopId = await this.shopService.CreateShopAsync(inputModel, CurrentUser.Id);
+            var shopId = await this.shopService.CreateShopAsync(inputModel, this.CurrentUser.Id);
 
             return this.RedirectToAction("Details", new { id = shopId });
         }
@@ -37,6 +34,17 @@ namespace Charshyia.Web.Controllers
         {
             var viewModel = await this.shopService.GetShopByIdAsync(id);
             return this.View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SendRequestToProducer(string username, int shopId)
+        {
+            var fromUser = this.CurrentUser;
+            var toUser = await this.userManager.FindByNameAsync(username);
+
+            await this.shopService.CreatePartnershipRequest(fromUser, toUser, shopId);
+
+            return this.RedirectToAction("Details", new { id = shopId });
         }
     }
 }

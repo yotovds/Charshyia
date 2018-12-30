@@ -69,6 +69,9 @@ namespace Charshyia.Web
                 configuration.CreateMap<ShopCreateInputModel, Shop>();
                 configuration.CreateMap<Shop, ShopDetailsViewModel>();
 
+                configuration.CreateMap<ShopCreateInputModel, ShopUser>();
+                configuration.CreateMap<ShopUser, ShopDetailsViewModel>();
+
                 configuration.CreateMap<UserDetailsViewModel, CharshyiaUser>();
                 configuration.CreateMap<CharshyiaUser, UserDetailsViewModel>();
 
@@ -77,6 +80,7 @@ namespace Charshyia.Web
             // My services
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<IShopService, ShopService>();
+            services.AddScoped<IUserService, UserService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

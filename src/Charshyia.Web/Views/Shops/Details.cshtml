@@ -15,13 +15,27 @@
 
 <hr/>
 
-<h3>Products</h3>
+<h3>Products:</h3>
 
 @foreach (var product in Model.Products)
 {
     <p>@product.Name</p>
     <p>@product.Id</p>
 }
+
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="SendRequestToProducer" method="post">
+                <div class="form-group">
+                    <input name="Username" placeholder="Username to add"  class="form-control" />
+                    <input hidden name="ShopId" value="@Model.Id" />
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Send request" class="btn btn-default" />
+                </div>
+            </form>
+        </div>
+    </div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
