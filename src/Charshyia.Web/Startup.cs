@@ -75,6 +75,9 @@ namespace Charshyia.Web
                 configuration.CreateMap<UserDetailsViewModel, CharshyiaUser>();
                 configuration.CreateMap<CharshyiaUser, UserDetailsViewModel>();
 
+                //configuration.CreateMap<Shop, ShopUser>();
+                //configuration.CreateMap<ShopUser, Shop>();
+
             });
 
             // My services

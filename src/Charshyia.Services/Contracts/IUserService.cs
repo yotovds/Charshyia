@@ -10,6 +10,6 @@ namespace Charshyia.Services.Contracts
 {
     public interface IUserService
     {
-        UserDetailsViewModel GetUserViewModel(CharshyiaUser user);
+        UserDetailsViewModel GetUserViewModel(string userId);
     }
 }

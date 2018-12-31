@@ -18,11 +18,19 @@
     <p>@Model.UserDetails.Username</p>
 
     <div class="d-inline">
+        <h3>Products:</h3>
         <div>
-            Products
+            @foreach (var product in Model.UserDetails.Products)
+            {
+                <div>@product.Name - id: @product.Id</div>
+            }
         </div>
         <div>
-            Shops
+            <h3>Shops</h3>
+            @foreach (var shop in Model.UserDetails.Shops)
+            {
+                <div>@shop.Name - id: @shop.Id</div>
+            }
         </div>
 
         <div>

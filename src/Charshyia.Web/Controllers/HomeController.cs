@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Charshyia.Services.Models;
-using Charshyia.Data.Models;
-using Microsoft.AspNetCore.Identity;
+﻿using Charshyia.Data.Models;
 using Charshyia.Services.Contracts;
-using Charshyia.Services.Models.Users;
+using Charshyia.Services.Models;
 using Charshyia.Services.Models.Home;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
 
 namespace Charshyia.Web.Controllers
 {
@@ -17,7 +12,7 @@ namespace Charshyia.Web.Controllers
     {
         private readonly IUserService userService;
 
-        public HomeController(UserManager<CharshyiaUser> userManager, IUserService userService) 
+        public HomeController(UserManager<CharshyiaUser> userManager, IUserService userService)
             : base(userManager)
         {
             this.userService = userService;
@@ -25,36 +20,43 @@ namespace Charshyia.Web.Controllers
 
         public IActionResult Index()
         {
-            var viewModel = new HomeIndexViewModel
+            if (this.CurrentUser != null)
             {
-                UserDetails = this.userService.GetUserViewModel(CurrentUser)
-            };
-            return View(viewModel);
+                var viewModel = new HomeIndexViewModel
+                {
+                    UserDetails = this.userService.GetUserViewModel(this.CurrentUser.Id)
+                };
+
+                return View(viewModel);
+            }
+
+            return this.View();
+            
         }
 
         public IActionResult About()
         {
-            ViewData["Message"] = "Your application description page.";
+            this.ViewData["Message"] = "Your application description page.";
 
-            return View();
+            return this.View();
         }
 
         public IActionResult Contact()
         {
-            ViewData["Message"] = "Your contact page.";
+            this.ViewData["Message"] = "Your contact page.";
 
-            return View();
+            return this.View();
         }
 
         public IActionResult Privacy()
         {
-            return View();
+            return this.View();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            return this.View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? this.HttpContext.TraceIdentifier });
         }
     }
 }
