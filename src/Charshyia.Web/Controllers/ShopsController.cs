@@ -46,5 +46,12 @@ namespace Charshyia.Web.Controllers
 
             return this.RedirectToAction("Details", new { id = shopId });
         }
+
+        [HttpPost]
+        public IActionResult ResponseToPartnership(int partnershipResponse, int partnershipId)
+        {
+            this.shopService.ResponseToParthership(partnershipResponse, partnershipId);
+            return RedirectToAction("Index", "Home");
+        }
     }
 }

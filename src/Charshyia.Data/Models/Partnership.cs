@@ -22,8 +22,8 @@ namespace Charshyia.Data.Models
 
     public enum PartnershipStatus
     {
-        Send = 1,
-        WaitingToResponse = 2,
-        Accepted = 3
+        WaitingToResponse = 1,
+        Accepted = 2,
+        Rejected = 3
     }
 }

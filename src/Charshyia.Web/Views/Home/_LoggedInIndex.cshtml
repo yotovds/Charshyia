@@ -30,6 +30,20 @@
             @foreach (var notification in Model.UserDetails.Partnerships)
             {
                 <p>From @notification.FromUser in @notification.Shop.Name</p>
+                <form asp-controller="Shops" asp-action="ResponseToPartnership" method="post">
+                    <ul class="navbar-nav mr-auto">  
+                        <li>
+                            <label for="accept">Accept</label>
+                            <input type="radio" id="accept" name="partnershipResponse" value="1" />
+                            <label for="reject">Reject</label>
+                            <input type="radio" id="reject" name="partnershipResponse" value="0" />
+                            <input hidden type="number" name="PartnershipId" value="@notification.Id" />
+                        </li>
+                        <li class="nav-item">
+                            <button type="submit" class="btn navbar-btn nav-link">SendResponse</button>
+                        </li>
+                    </ul>
+                </form>
             }
         </div>
     </div>

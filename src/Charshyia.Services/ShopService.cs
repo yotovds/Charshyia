@@ -6,17 +6,15 @@ using Charshyia.Services.Models.Products;
 using Charshyia.Services.Models.Shops;
 using Charshyia.Services.Models.Users;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Charshyia.Services
 {
     public class ShopService : BaseService, IShopService
     {
-        public ShopService(CharshyiaDbContext context, IMapper mapper) 
+        public ShopService(CharshyiaDbContext context, IMapper mapper)
             : base(context, mapper)
         {
         }
@@ -72,15 +70,54 @@ namespace Charshyia.Services
         {
             await this.DbContext
                 .Partnerships
-                .AddAsync( new Partnership
-                    {
-                        FromUser = fromUser,
-                        ToUser = toUser,
-                        ShopId = shopId,
-                        Status = PartnershipStatus.Send
-                    });
+                .AddAsync(new Partnership
+                {
+                    FromUser = fromUser,
+                    ToUser = toUser,
+                    ShopId = shopId,
+                    Status = PartnershipStatus.WaitingToResponse
+                });
 
             await this.DbContext.SaveChangesAsync();
+        }
+
+        public void ResponseToParthership(int partnershipResponse, int partnershipId)
+        {
+            var partnership = this.DbContext
+                .Partnerships
+                .Where(p => p.Id == partnershipId)
+                .FirstOrDefault();
+
+            switch (partnershipResponse)
+            {
+                case 0:
+                    partnership.Status = PartnershipStatus.Rejected;
+                    this.DbContext
+                        .Partnerships
+                        .Remove(partnership);
+
+                    this.DbContext.SaveChanges();
+                    break;
+
+                case 1:
+                    partnership.Status = PartnershipStatus.Accepted;
+                    var shop = this.DbContext
+                        .Shops
+                        .Where(s => s.Id == partnership.ShopId)
+                        .FirstOrDefault();
+
+                    shop.Producers.Add(new ShopUser { ShopId = shop.Id, ProducerId = partnership.ToUserId });
+
+                    this.DbContext
+                        .Partnerships
+                        .Remove(partnership);
+
+                    this.DbContext.SaveChanges();
+                    break;
+                
+                default:
+                    break;
+            }
         }
     }
 }
