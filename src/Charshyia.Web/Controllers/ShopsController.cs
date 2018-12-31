@@ -10,11 +10,13 @@ namespace Charshyia.Web.Controllers
     public class ShopsController : BaseController
     {
         private readonly IShopService shopService;
+        private readonly IPartnershipService partnershipService;
 
-        public ShopsController(UserManager<CharshyiaUser> userManager, IShopService shopService)
+        public ShopsController(UserManager<CharshyiaUser> userManager, IShopService shopService, IPartnershipService partnershipService)
             : base(userManager)
         {
             this.shopService = shopService;
+            this.partnershipService = partnershipService;
         }
 
         public IActionResult Create()
@@ -42,7 +44,7 @@ namespace Charshyia.Web.Controllers
             var fromUser = this.CurrentUser;
             var toUser = await this.userManager.FindByNameAsync(username);
 
-            await this.shopService.CreatePartnershipRequest(fromUser, toUser, shopId);
+            await this.partnershipService.CreatePartnershipRequest(fromUser, toUser, shopId);
 
             return this.RedirectToAction("Details", new { id = shopId });
         }
@@ -50,7 +52,7 @@ namespace Charshyia.Web.Controllers
         [HttpPost]
         public IActionResult ResponseToPartnership(int partnershipResponse, int partnershipId)
         {
-            this.shopService.ResponseToParthership(partnershipResponse, partnershipId);
+            this.partnershipService.ResponseToParthership(partnershipResponse, partnershipId);
             return RedirectToAction("Index", "Home");
         }
     }

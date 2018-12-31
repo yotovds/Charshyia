@@ -2,40 +2,49 @@
 
 @{
     ViewData["Title"] = "Create";
+    bool canUserAddProducer = Model.Producers.Select(u => u.Username).Contains(this.User.Identity.Name) || this.User.IsInRole("Admin");
 }
+<div>
+    <div>
+        <h1>Shop Details</h1>
 
-<h1>Shop Details</h1>
-
-<p>Name: @Model.Name</p>
-<h3>Producers:</h3>
-@foreach (var producer in Model.Producers)
-{
-    <p>@producer.Username</p>
-}
-
-<hr/>
-
-<h3>Products:</h3>
-
-@foreach (var product in Model.Products)
-{
-    <p>@product.Name</p>
-    <p>@product.Id</p>
-}
-
-    <div class="row">
-        <div class="col-md-4">
-            <form asp-action="SendRequestToProducer" method="post">
-                <div class="form-group">
-                    <input name="Username" placeholder="Username to add"  class="form-control" />
-                    <input hidden name="ShopId" value="@Model.Id" />
-                </div>
-                <div class="form-group">
-                    <input type="submit" value="Send request" class="btn btn-default" />
-                </div>
-            </form>
-        </div>
+        <p>Name: @Model.Name</p>
+        <h3>Producers:</h3>
+        @foreach (var producer in Model.Producers)
+        {
+            <p>@producer.Username</p>
+        }
     </div>
+
+    <div>
+        <h3>Products:</h3>
+
+        @foreach (var product in Model.Products)
+        {
+            <p>@product.Name</p>
+            <p>@product.Id</p>
+        }
+    </div>
+
+    <div>
+        @if (canUserAddProducer)
+        {
+            <div class="row">
+                <div class="col-md-4">
+                    <form asp-action="SendRequestToProducer" method="post">
+                        <div class="form-group">
+                            <input name="Username" placeholder="Username to add" class="form-control" />
+                            <input hidden name="ShopId" value="@Model.Id" />
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Send request" class="btn btn-default" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        }
+    </div>
+</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

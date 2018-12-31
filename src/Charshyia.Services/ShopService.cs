@@ -66,58 +66,58 @@ namespace Charshyia.Services
             return viewModel;
         }
 
-        public async Task CreatePartnershipRequest(CharshyiaUser fromUser, CharshyiaUser toUser, int shopId)
-        {
-            await this.DbContext
-                .Partnerships
-                .AddAsync(new Partnership
-                {
-                    FromUser = fromUser,
-                    ToUser = toUser,
-                    ShopId = shopId,
-                    Status = PartnershipStatus.WaitingToResponse
-                });
+        //public async Task CreatePartnershipRequest(CharshyiaUser fromUser, CharshyiaUser toUser, int shopId)
+        //{
+        //    await this.DbContext
+        //        .Partnerships
+        //        .AddAsync(new Partnership
+        //        {
+        //            FromUser = fromUser,
+        //            ToUser = toUser,
+        //            ShopId = shopId,
+        //            Status = PartnershipStatus.WaitingToResponse
+        //        });
 
-            await this.DbContext.SaveChangesAsync();
-        }
+        //    await this.DbContext.SaveChangesAsync();
+        //}
 
-        public void ResponseToParthership(int partnershipResponse, int partnershipId)
-        {
-            var partnership = this.DbContext
-                .Partnerships
-                .Where(p => p.Id == partnershipId)
-                .FirstOrDefault();
+        //public void ResponseToParthership(int partnershipResponse, int partnershipId)
+        //{
+        //    var partnership = this.DbContext
+        //        .Partnerships
+        //        .Where(p => p.Id == partnershipId)
+        //        .FirstOrDefault();
 
-            switch (partnershipResponse)
-            {
-                case 0:
-                    partnership.Status = PartnershipStatus.Rejected;
-                    this.DbContext
-                        .Partnerships
-                        .Remove(partnership);
+        //    switch (partnershipResponse)
+        //    {
+        //        case 0:
+        //            partnership.Status = PartnershipStatus.Rejected;
+        //            this.DbContext
+        //                .Partnerships
+        //                .Remove(partnership);
 
-                    this.DbContext.SaveChanges();
-                    break;
+        //            this.DbContext.SaveChanges();
+        //            break;
 
-                case 1:
-                    partnership.Status = PartnershipStatus.Accepted;
-                    var shop = this.DbContext
-                        .Shops
-                        .Where(s => s.Id == partnership.ShopId)
-                        .FirstOrDefault();
+        //        case 1:
+        //            partnership.Status = PartnershipStatus.Accepted;
+        //            var shop = this.DbContext
+        //                .Shops
+        //                .Where(s => s.Id == partnership.ShopId)
+        //                .FirstOrDefault();
 
-                    shop.Producers.Add(new ShopUser { ShopId = shop.Id, ProducerId = partnership.ToUserId });
+        //            shop.Producers.Add(new ShopUser { ShopId = shop.Id, ProducerId = partnership.ToUserId });
 
-                    this.DbContext
-                        .Partnerships
-                        .Remove(partnership);
+        //            this.DbContext
+        //                .Partnerships
+        //                .Remove(partnership);
 
-                    this.DbContext.SaveChanges();
-                    break;
+        //            this.DbContext.SaveChanges();
+        //            break;
                 
-                default:
-                    break;
-            }
-        }
+        //        default:
+        //            break;
+        //    }
+        //}
     }
 }
