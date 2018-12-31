@@ -12,48 +12,53 @@
             <li class="nav-item">
                 <a asp-controller="Shops" asp-action="Create" class="nav-link">Create Shop</a>
             </li>
+            <li class="nav-item">
+                <div class="nav-link">
+                    <h6>Partnership requests:</h6>
+                    @foreach (var notification in Model.UserDetails.Partnerships)
+                    {
+                        <p>From @notification.FromUser in @notification.Shop.Name</p>
+                        <form asp-controller="Shops" asp-action="ResponseToPartnership" method="post">
+                            <ul class="navbar-nav mr-auto">
+                                <li>
+                                    <label for="accept">Accept</label>
+                                    <input type="radio" id="accept" name="partnershipResponse" value="1" />
+                                    <label for="reject">Reject</label>
+                                    <input type="radio" id="reject" name="partnershipResponse" value="0" />
+                                    <input hidden type="number" name="PartnershipId" value="@notification.Id" />
+                                </li>
+                                <li class="nav-item">
+                                    <button type="submit" class="btn navbar-btn nav-link">SendResponse</button>
+                                </li>
+                            </ul>
+                        </form>
+                    }
+                </div>
+            </li>
         </ul>
     </div>
-
-    <p>@Model.UserDetails.Username</p>
 
     <div class="d-inline">
         <h3>Products:</h3>
         <div>
             @foreach (var product in Model.UserDetails.Products)
             {
-                <div>@product.Name - id: @product.Id</div>
+                <a asp-controller="Products" asp-action="Details" asp-route-id="@product.Id">
+                    <div class="d-inline">@product.Name</div>
+                </a>
             }
         </div>
         <div>
             <h3>Shops</h3>
             @foreach (var shop in Model.UserDetails.Shops)
             {
-                <div>@shop.Name - id: @shop.Id</div>
+                <a asp-controller="Shops" asp-action="Details" asp-route-id="@shop.Id">
+                    <div class="d-inline">@shop.Name</div>
+                </a>
             }
         </div>
 
-        <div>
-            <h3>Notifications:</h3>
-            @foreach (var notification in Model.UserDetails.Partnerships)
-            {
-                <p>From @notification.FromUser in @notification.Shop.Name</p>
-                <form asp-controller="Shops" asp-action="ResponseToPartnership" method="post">
-                    <ul class="navbar-nav mr-auto">  
-                        <li>
-                            <label for="accept">Accept</label>
-                            <input type="radio" id="accept" name="partnershipResponse" value="1" />
-                            <label for="reject">Reject</label>
-                            <input type="radio" id="reject" name="partnershipResponse" value="0" />
-                            <input hidden type="number" name="PartnershipId" value="@notification.Id" />
-                        </li>
-                        <li class="nav-item">
-                            <button type="submit" class="btn navbar-btn nav-link">SendResponse</button>
-                        </li>
-                    </ul>
-                </form>
-            }
-        </div>
+
     </div>
 </div>
 
