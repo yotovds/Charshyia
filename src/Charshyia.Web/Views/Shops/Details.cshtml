@@ -3,6 +3,9 @@
 @{
     ViewData["Title"] = "Create";
     bool canUserAddProducer = Model.Producers.Select(u => u.Username).Contains(this.User.Identity.Name) || this.User.IsInRole("Admin");
+    var userViewModel = this.userService.GetUserViewModel(this.UserManager.GetUserId(this.User));
+    var userProducts = new SelectList(userViewModel.Products, "Id", "Name");
+
 }
 <div>
     <div>
@@ -39,6 +42,16 @@
                         <div class="form-group">
                             <input type="submit" value="Send request" class="btn btn-default" />
                         </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <form asp-action="AddProduct" method="post">
+                        <select name="productId" asp-items="userProducts"></select>
+                        <input type="hidden" name="shopId" value="@Model.Id" />
+                        <input type="submit" value="AddToShop" />
                     </form>
                 </div>
             </div>

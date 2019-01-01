@@ -66,6 +66,17 @@ namespace Charshyia.Services
             return viewModel;
         }
 
+        public void AddProductToShop(int shopId, int productId)
+        {
+            var shop = this.DbContext
+                .Shops
+                .Where(s => s.Id == shopId)
+                .FirstOrDefault();
+
+            shop.Products.Add(new ShopProduct { ShopId = shop.Id, ProductId = productId });
+            this.DbContext.SaveChanges();
+        }
+
         //public async Task CreatePartnershipRequest(CharshyiaUser fromUser, CharshyiaUser toUser, int shopId)
         //{
         //    await this.DbContext

@@ -1,12 +1,14 @@
 ﻿using Charshyia.Data.Models;
 using Charshyia.Services.Contracts;
 using Charshyia.Services.Models.Shops;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
 namespace Charshyia.Web.Controllers
 {
+    [Authorize]
     public class ShopsController : BaseController
     {
         private readonly IShopService shopService;
@@ -53,6 +55,14 @@ namespace Charshyia.Web.Controllers
         public IActionResult ResponseToPartnership(int partnershipResponse, int partnershipId)
         {
             this.partnershipService.ResponseToParthership(partnershipResponse, partnershipId);
+            return RedirectToAction("Index", "Home");
+        }
+
+        [HttpPost]
+        public IActionResult AddProduct(int shopId, int productId)
+        {
+            this.shopService.AddProductToShop(shopId, productId);
+
             return RedirectToAction("Index", "Home");
         }
     }

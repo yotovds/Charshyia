@@ -2,6 +2,9 @@
 
 @{
     ViewData["Title"] = "Details";
+    var userViewModel = this.userService.GetUserViewModel(this.UserManager.GetUserId(this.User));
+    var userShops = new SelectList(userViewModel.Shops, "Id", "Name");
+    ;
 }
 
 <h2>Product Details:</h2>
@@ -12,3 +15,8 @@
     <p>Price: @Model.Price</p>
     <p>Producer name: @Model.Producer</p>
 </div>
+<form asp-controller="Shops" asp-action="AddProduct" method="post">
+    <select name="ShopId" asp-items="userShops"></select>
+    <input type="hidden" name="ProductId" value="@Model.Id" />
+    <input type="submit" value="AddToShop" />
+</form>

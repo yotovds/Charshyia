@@ -60,6 +60,13 @@ namespace Charshyia.Web
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = $"/Identity/Account/Login";
+                //options.LogoutPath = $"/Identity/Account/Logout";
+                //options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
+            });
+
             // TODO: Extract to file, and use reflection and interfaces
             services.AddAutoMapper(configuration =>
             {
@@ -112,6 +119,10 @@ namespace Charshyia.Web
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
+
+                routes.MapRoute(
+                    name: "area",
+                    template: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
             });
 
             // Add amin and user roles

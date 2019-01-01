@@ -7,11 +7,13 @@ using Charshyia.Data.Models;
 using Charshyia.Services.Contracts;
 using Charshyia.Services.Models;
 using Charshyia.Services.Models.Products;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Charshyia.Web.Controllers
 {
+    [Authorize]
     public class ProductsController : BaseController
     {
         private readonly IProductService productsService;
