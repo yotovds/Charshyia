@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
-using Charshyia.Data.Models;
+﻿using Charshyia.Data.Models;
 using Charshyia.Services.Contracts;
-using Charshyia.Services.Models;
 using Charshyia.Services.Models.Products;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace Charshyia.Web.Controllers
 {
@@ -19,7 +14,7 @@ namespace Charshyia.Web.Controllers
         private readonly IProductService productsService;
         //private readonly IMapper mapper;
 
-        public ProductsController(UserManager<CharshyiaUser> userManager, IProductService productsService) 
+        public ProductsController(UserManager<CharshyiaUser> userManager, IProductService productsService)
             : base(userManager)
         {
             this.productsService = productsService;
@@ -33,17 +28,25 @@ namespace Charshyia.Web.Controllers
 
         [HttpPost]
         public async Task<IActionResult> Create(ProductCreateInputModel inputModel)
-        {            
-           var productId = await this.productsService.AddProductAsync(inputModel, CurrentUser.Id);
+        {
+            var productId = await this.productsService.CreateProductAsync(inputModel, this.CurrentUser.Id);
 
-            //var viewModel = this.productsService.GetProductById(3);
-            return RedirectToAction("Details", new { id = productId });
+            return this.RedirectToAction("Details", new { id = productId });
         }
 
         public async Task<IActionResult> Details(int id)
         {
             var viewModel = await this.productsService.GetProductByIdAsync(id);
+
             return this.View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddProductToShop(int productId, int shopId)
+        {
+            await this.productsService.AddProductToShop(productId, shopId);
+
+            return this.RedirectToAction("Details", new { id = productId });
         }
     }
 }

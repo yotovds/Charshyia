@@ -1,60 +1,25 @@
 ﻿@model Charshyia.Services.Models.Shops.ShopDetailsViewModel
 
 @{
-    ViewData["Title"] = "Create";
-    bool canUserAddProducer = Model.Producers.Select(u => u.Username).Contains(this.User.Identity.Name) || this.User.IsInRole("Admin");
-    var userViewModel = this.userService.GetUserViewModel(this.UserManager.GetUserId(this.User));
-    var userProducts = new SelectList(userViewModel.Products, "Id", "Name");
-
+    ViewData["Title"] = "Shop Details";
 }
+
 <div>
     <div>
-        <h1>Shop Details</h1>
-
-        <p>Name: @Model.Name</p>
-        <h3>Producers:</h3>
-        @foreach (var producer in Model.Producers)
+        <h3>Shop @Model.Name Details</h3>
+    </div>
+    <div>
+        <h5>Shop Products:</h5>
+        @foreach (var p in Model.Products)
         {
-            <p>@producer.Username</p>
+            <p>@p.Name - @p.Price</p>
         }
     </div>
-
     <div>
-        <h3>Products:</h3>
-
-        @foreach (var product in Model.Products)
+        <h5>Shop Producers:</h5>
+        @foreach (var p in Model.Producers)
         {
-            <p>@product.Name</p>
-            <p>@product.Id</p>
-        }
-    </div>
-
-    <div>
-        @if (canUserAddProducer)
-        {
-            <div class="row">
-                <div class="col-md-4">
-                    <form asp-action="SendRequestToProducer" method="post">
-                        <div class="form-group">
-                            <input name="Username" placeholder="Username to add" class="form-control" />
-                            <input hidden name="ShopId" value="@Model.Id" />
-                        </div>
-                        <div class="form-group">
-                            <input type="submit" value="Send request" class="btn btn-default" />
-                        </div>
-                    </form>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-4">
-                    <form asp-action="AddProduct" method="post">
-                        <select name="productId" asp-items="userProducts"></select>
-                        <input type="hidden" name="shopId" value="@Model.Id" />
-                        <input type="submit" value="AddToShop" />
-                    </form>
-                </div>
-            </div>
+            <p>@p.Username</p>
         }
     </div>
 </div>

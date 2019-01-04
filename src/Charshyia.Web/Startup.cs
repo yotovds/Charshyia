@@ -72,19 +72,23 @@ namespace Charshyia.Web
             {
                 configuration.CreateMap<ProductCreateInputModel, Product>();
                 configuration.CreateMap<Product, ProductDetailsViewModel>();
+                configuration.CreateMap<ProductDetailsViewModel, Product>();
 
                 configuration.CreateMap<ShopCreateInputModel, Shop>();
                 configuration.CreateMap<Shop, ShopDetailsViewModel>();
-
-                configuration.CreateMap<ShopCreateInputModel, ShopUser>();
+                configuration.CreateMap<ShopDetailsViewModel, Shop>();
                 configuration.CreateMap<ShopUser, ShopDetailsViewModel>();
 
                 configuration.CreateMap<UserDetailsViewModel, CharshyiaUser>();
                 configuration.CreateMap<CharshyiaUser, UserDetailsViewModel>();
 
-                //configuration.CreateMap<Shop, ShopUser>();
-                //configuration.CreateMap<ShopUser, Shop>();
+                configuration.CreateMap<ShopProduct, ProductDetailsViewModel>();
+                configuration.CreateMap<ProductDetailsViewModel, ShopProduct>();
 
+                configuration.CreateMap<UserDetailsViewModel, ShopUser>();
+                configuration.CreateMap<ShopUser, UserDetailsViewModel>();
+
+                configuration.CreateMap<ShopProduct, ShopDetailsViewModel>();
             });
 
             // My services
@@ -127,6 +131,7 @@ namespace Charshyia.Web
 
             // Add amin and user roles
             this.CreateUserRoles(services).GetAwaiter().GetResult();
+            this.SeedData(services);
         }
 
         private async Task CreateUserRoles(IServiceProvider serviceProvider)
@@ -142,6 +147,7 @@ namespace Charshyia.Web
                 //create the roles and seed them to the database
                 await RoleManager.CreateAsync(new IdentityRole("Admin"));
                 await RoleManager.CreateAsync(new IdentityRole("User"));
+                await RoleManager.CreateAsync(new IdentityRole("Producer"));
             }
 
             //Assign Admin role to the main User here we have given our newly registered 
@@ -149,6 +155,54 @@ namespace Charshyia.Web
             //CharshyiaUser user = await UserManager.FindByEmailAsync("syedshanumcain@gmail.com");
             //var User = new CharshyiaUser();
             //await UserManager.AddToRoleAsync(user, "Admin");
+        }
+
+        private void SeedData(IServiceProvider services)
+        {
+            var db = services.GetService<CharshyiaDbContext>();
+            var userManager = services.GetService<UserManager<CharshyiaUser>>();
+
+            if (db.Users.CountAsync().GetAwaiter().GetResult() == 0)
+            {
+                string[] userNames = { "Ivan", "Dragan", "Pesho", "Ju", "Minka" };
+
+                for (int i = 0; i < userNames.Length; i++)
+                {
+                    var userProducer = new CharshyiaUser
+                    {
+                        UserName = "producer" + userNames[i],
+                        Email = userNames[i] + "@mail.bg",
+                        PhoneNumber = "08966600" + i
+                    };
+
+                    userManager.CreateAsync(userProducer, "123").GetAwaiter().GetResult();
+                    userManager.AddToRoleAsync(userProducer, "Producer").GetAwaiter().GetResult();
+
+                    for (int j = 0; j < 10; j++)
+                    {
+                        var product = new Product
+                        {
+                            Name = userProducer.UserName + "Product" + j,
+                            Price = new Random().Next(5, 1000),
+                            Description = "DescriptionDescriptionDescription",
+                            ProducerId = userProducer.Id
+                        };
+
+                        db.Products.Add(product);
+                    }
+                    db.SaveChanges();
+
+                    var user = new CharshyiaUser
+                    {
+                        UserName = "user" + userNames[i],
+                        Email = userNames[i] + "@mail.bg",
+                        PhoneNumber = "08966600" + i
+                    };
+
+                    userManager.CreateAsync(user, "123").GetAwaiter().GetResult();
+                    userManager.AddToRoleAsync(user, "User").GetAwaiter().GetResult();
+                }
+            }           
         }
     }
 }

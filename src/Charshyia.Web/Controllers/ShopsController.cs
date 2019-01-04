@@ -61,7 +61,7 @@ namespace Charshyia.Web.Controllers
         [HttpPost]
         public IActionResult AddProduct(int shopId, int productId)
         {
-            this.shopService.AddProductToShop(shopId, productId);
+            this.shopService.AddProductToShopAsync(shopId, productId);
 
             return RedirectToAction("Index", "Home");
         }

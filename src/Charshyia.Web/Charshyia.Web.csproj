@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="Views\Home\_LoggedInIndex.cshtml">
+    <Content Update="Views\Home\_LoggedInProducerIndex.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Views\Shared\_ParnershipRequests.cshtml">

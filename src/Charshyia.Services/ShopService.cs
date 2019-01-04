@@ -21,9 +21,15 @@ namespace Charshyia.Services
 
         public async Task<int> CreateShopAsync(ShopCreateInputModel inputModel, string fouderId)
         {
-            var shop = this.Mapper.Map<Shop>(inputModel);
-            shop.FounderId = fouderId;
+            var shop = new Shop
+            {
+                Name = inputModel.Name,
+                FounderId = fouderId
+            };
+
             await this.DbContext.Shops.AddAsync(shop);
+
+            //Add fouder to shop's producers list
             shop.Producers.Add(new ShopUser { ProducerId = shop.FounderId, ShopId = shop.Id });
 
             await this.DbContext.SaveChangesAsync();
@@ -43,38 +49,46 @@ namespace Charshyia.Services
                 .Where(s => s.Id == shopId)
                 .FirstOrDefaultAsync();
 
-            //var ppp = this.Mapper
-            //         .Map<List<CharshyiaUser>>(shop.Producers.Select(x => x.Producer))
-            //         .ToList();
+            var viewModel = this.Mapper.Map<ShopDetailsViewModel>(shop);
+            viewModel.Products = this.Mapper.Map<List<ProductDetailsViewModel>>(shop.Products.Select(x => x.Product));
+            viewModel.Producers = this.Mapper.Map<List<UserDetailsViewModel>>(shop.Producers.Select(x => x.Producer));
 
-            //var asdas = this.Mapper
-            //        .Map<List<UserDetailsViewModel>>(ppp);
 
-            var viewModel = new ShopDetailsViewModel
-            {
-                Id = shop.Id,
-                Name = shop.Name,
-                Products = this.Mapper
-                    .Map<List<ProductDetailsViewModel>>(shop.Products.Select(x => x.Product))
-                    .ToList(),
-                Producers = this.Mapper
-                    .Map<List<UserDetailsViewModel>>(this.Mapper
-                        .Map<List<CharshyiaUser>>(shop.Producers.Select(x => x.Producer))
-                        .ToList())
-            };
 
             return viewModel;
         }
 
-        public void AddProductToShop(int shopId, int productId)
+        public async Task AddProductToShopAsync(int shopId, int productId)
         {
-            var shop = this.DbContext
+            var shop = await this.DbContext
                 .Shops
                 .Where(s => s.Id == shopId)
-                .FirstOrDefault();
+                .FirstOrDefaultAsync();
 
             shop.Products.Add(new ShopProduct { ShopId = shop.Id, ProductId = productId });
-            this.DbContext.SaveChanges();
+            await this.DbContext.SaveChangesAsync();
+        }
+
+        public List<ShopDetailsViewModel> GetUserShops(string userId)
+        {
+            var shops = this.DbContext
+                .Shops
+                .Include(s => s.Producers)
+                .Where(s => s.Producers.Select(x => x.ProducerId).Contains(userId)).ToList();
+
+            var userShopsViewModel = new List<ShopDetailsViewModel>();
+            foreach (var s in shops)
+            {
+                userShopsViewModel.Add(new ShopDetailsViewModel
+                {
+                    Id = s.Id,
+                    Name = s.Name,
+                    //Products = null,
+                    //Producers = null,
+                });
+            }
+
+            return userShopsViewModel;
         }
 
         //public async Task CreatePartnershipRequest(CharshyiaUser fromUser, CharshyiaUser toUser, int shopId)
@@ -125,7 +139,7 @@ namespace Charshyia.Services
 
         //            this.DbContext.SaveChanges();
         //            break;
-                
+
         //        default:
         //            break;
         //    }

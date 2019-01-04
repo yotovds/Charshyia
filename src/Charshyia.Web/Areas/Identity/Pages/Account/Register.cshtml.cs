@@ -41,15 +41,20 @@ namespace Charshyia.Web.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-
             [Required]
             [Display(Name = "Username")]
+            [StringLength(30, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 4)]
             public string Username { get; set; }
 
             [Required]
             [EmailAddress]
             [Display(Name = "Email")]
             public string Email { get; set; }
+                        
+            [Display(Name = "Phone")]
+            [Phone]
+            [DataType(DataType.PhoneNumber)]
+            public string PhoneNumber { get; set; }
 
             [Required]
             [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 3)]
@@ -61,6 +66,9 @@ namespace Charshyia.Web.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+
+            [Display(Name = "I am Producer")]
+            public bool IsUserProducer { get; set; }
         }
 
         public void OnGet(string returnUrl = null)
@@ -73,9 +81,9 @@ namespace Charshyia.Web.Areas.Identity.Pages.Account
             returnUrl = returnUrl ?? Url.Content("~/");
             if (ModelState.IsValid)
             {
-                var user = new CharshyiaUser { UserName = Input.Username, Email = Input.Email };
+                var user = new CharshyiaUser { UserName = Input.Username, Email = Input.Email, PhoneNumber = Input.PhoneNumber};
                 var result = await _userManager.CreateAsync(user, Input.Password);
-                await this._userManager.AddToRoleAsync(user, "User");
+                await this._userManager.AddToRoleAsync(user, Input.IsUserProducer ? "Producer" : "User");
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");

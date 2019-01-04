@@ -10,8 +10,12 @@ namespace Charshyia.Services.Contracts
 {
     public interface IProductService
     {
-        Task<int> AddProductAsync(ProductCreateInputModel inputModel, string producerId);
+        Task<int> CreateProductAsync(ProductCreateInputModel inputModel, string producerId);
 
         Task<ProductDetailsViewModel> GetProductByIdAsync(int productId);
+
+        Task AddProductToShop(int productId, int shopId);
+
+        //Task<List<ProductDetailsViewModel>> GetCurrentUserProductsAsync(string userId);
     }
 }

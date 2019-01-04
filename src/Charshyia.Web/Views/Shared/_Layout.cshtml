@@ -16,7 +16,7 @@
             <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
         </environment>*@
 </head>
-<body>
+<body class="container-fluid">
     <header>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container">
@@ -31,36 +31,79 @@
         </nav>
     </header>
 
-    <div class="row">
-        <div class="col-sm-3 col-md-2 hidden-xs-down bg-faded sidebar">
-            <ul class="nav nav-pills flex-column">
-                <li class="nav-item">
-                    <a asp-controller="Products" asp-action="Create" class="nav-link">Create Product</a>
-                </li>
-                <li class="nav-item">
-                    <a asp-controller="Shops" asp-action="Create" class="nav-link">Create Shop</a>
-                </li>
-                <li class="nav-item">
-                    <partial name="_ParnershipRequests" />
-                </li>
-            </ul>
-        </div>
-
-        @RenderBody()
-
-    </div>
-
     <partial name="_CookieConsentPartial" />
 
-    
+    <main class="row">
+        <div class="col-sm-3 col-md-2 hidden-xs-down bg-faded sidebar">
+            @if (this.User.IsInRole("Producer"))
+            {
+                <ul class="nav nav-pills flex-column">
+                    <li class="nav-item">
+                        <a asp-controller="Products" asp-action="Create" class="nav-link">Create Product</a>
+                    </li>
+                    <li class="nav-item">
+                        <a asp-controller="Shops" asp-action="Create" class="nav-link">Create Shop</a>
+                    </li>
+                    <li class="nav-item">
+                        <partial name="_ParnershipRequests" />
+                    </li>
+                </ul>
+            }
+            else if (this.User.IsInRole("User"))
+            {
+                <ul class="nav nav-pills flex-column">
+                    <li class="nav-item">
+                        @*<a asp-controller="Products" asp-action="Create" class="nav-link">Create Product</a>*@
+                        <a>SomeUserLink1</a>
+                    </li>
+                    <li class="nav-item">
+                        <a>SomeUserLink2</a>
+                    </li>
+                    <li class="nav-item">
+                        <a>SomeUserLink3</a>
+                    </li>
+                </ul>
+            }
+        </div>
+        @RenderBody()
+    </main>
 
-    <div>
+    <footer>
+        <p>&copy; 2018 - Charshyia.Web</p>
+    </footer>
 
-        <hr />
-        <footer>
-            <p>&copy; 2018 - Charshyia.Web</p>
-        </footer>
-    </div>
+
+
+    @*<div class="row">
+            <div class="col-sm-3 col-md-2 hidden-xs-down bg-faded sidebar">
+                <ul class="nav nav-pills flex-column">
+                    <li class="nav-item">
+                        <a asp-controller="Products" asp-action="Create" class="nav-link">Create Product</a>
+                    </li>
+                    <li class="nav-item">
+                        <a asp-controller="Shops" asp-action="Create" class="nav-link">Create Shop</a>
+                    </li>
+                    <li class="nav-item">
+                        <partial name="_ParnershipRequests" />
+                    </li>
+                </ul>
+            </div>
+
+            @RenderBody()
+
+        </div>*@
+
+
+
+
+
+    @*<div>
+
+            <hr />
+            <footer>
+                <p>&copy; 2018 - Charshyia.Web</p>
+            </footer>
+        </div>*@
 
     <environment include="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>

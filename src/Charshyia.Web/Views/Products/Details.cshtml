@@ -1,22 +1,43 @@
 ﻿@model Charshyia.Services.Models.Products.ProductDetailsViewModel
 
 @{
-    ViewData["Title"] = "Details";
-    var userViewModel = this.userService.GetUserViewModel(this.UserManager.GetUserId(this.User));
-    var userShops = new SelectList(userViewModel.Shops, "Id", "Name");
+    ViewData["Title"] = "Product Details";
+    var currentUserId = this.UserManager.GetUserId(this.User);
+    bool userCanManipulateThisProduct = Model.ProducerId == currentUserId;
+    var userShops = new SelectList(this.userService.GetUserViewModel(currentUserId).Shops, "Id", "Name");
     ;
 }
 
-<h2>Product Details:</h2>
-
 <div>
-    <p>Name: @Model.Name</p>
-    <p>Description: @Model.Description</p>
-    <p>Price: @Model.Price</p>
-    <p>Producer name: @Model.Producer</p>
+    <div>
+        <h2>Product @Model.Name Details:</h2>
+        <p>Description: @Model.Description</p>
+        <p>Price: @Model.Price</p>
+        <p>Producer name: @Model.Producer</p>
+    </div>
+    <div>
+        <h2>Product Shops:</h2>
+        @foreach (var p in Model.Shops)
+        {
+            <p>@p.Name</p>
+        }
+    </div>foreach
+    <div>
+        @if (userCanManipulateThisProduct)
+        {
+            <div>
+                <form asp-controller="Products" asp-action="AddProductToShop" method="post">
+                    <div class="form-group">
+                        <select name="shopId" asp-items="@userShops"></select>
+                        <input hidden name="productId" value="@Model.Id" />
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="AddToShop" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
+
+            
+        }
+    </div>
 </div>
-<form asp-controller="Shops" asp-action="AddProduct" method="post">
-    <select name="ShopId" asp-items="userShops"></select>
-    <input type="hidden" name="ProductId" value="@Model.Id" />
-    <input type="submit" value="AddToShop" />
-</form>

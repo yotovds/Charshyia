@@ -21,12 +21,12 @@ namespace Charshyia.Services.Models.Users
 
         public string Email { get; set; }
 
-        public string PhoneNumer { get; set; }
+        public string PhoneNumber { get; set; }
 
         public ICollection<ProductDetailsViewModel> Products { get; set; }
 
         public ICollection<ShopDetailsViewModel> Shops { get; set; }
 
-        public ICollection<Partnership> Partnerships { get; set; }
+        //public ICollection<Partnership> Partnerships { get; set; }
     }
 }

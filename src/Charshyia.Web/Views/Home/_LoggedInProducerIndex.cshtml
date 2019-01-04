@@ -1,13 +1,15 @@
-﻿@model Charshyia.Services.Models.Home.HomeIndexViewModel
+﻿@*@model Charshyia.Services.Models.Home.HomeIndexViewModel*@
 
 @{
-    ViewData["Title"] = "Home Page";
+//var userProducts = this.productService.GetCurrentUserProducts(this.UserManager.GetUserId(this.User)).ToList();
+//var userShops = this.shopService.GetUserShops(this.UserManager.GetUserId(this.User)).ToList();
+//;
 }
 
 <div class="d-inline">
-    <h3>Products:</h3>
-    <div>
-        @foreach (var product in Model.UserDetails.Products)
+    @*<h3>My products:</h3>*@
+    @*<div>
+        @foreach (var product in userProducts)
         {
             <a asp-controller="Products" asp-action="Details" asp-route-id="@product.Id">
                 <div class="d-inline">@product.Name</div>
@@ -16,13 +18,13 @@
     </div>
     <div>
         <h3>Shops</h3>
-        @foreach (var shop in Model.UserDetails.Shops)
+        @foreach (var shop in userShops)
         {
             <a asp-controller="Shops" asp-action="Details" asp-route-id="@shop.Id">
                 <div class="d-inline">@shop.Name</div>
             </a>
         }
-    </div>
+    </div>*@
 </div>
 
 

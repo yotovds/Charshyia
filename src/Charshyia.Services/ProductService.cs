@@ -16,15 +16,24 @@ namespace Charshyia.Services
 {
     public class ProductService : BaseService, IProductService
     {
-        public ProductService(CharshyiaDbContext context, IMapper mapper) 
+        private readonly IShopService shopService;
+
+        public ProductService(CharshyiaDbContext context, IMapper mapper, IShopService shopService) 
             : base(context, mapper)
         {
+            this.shopService = shopService;
         }
 
-        public async Task<int> AddProductAsync(ProductCreateInputModel inputModel, string producerId)
+        public async Task AddProductToShop(int productId, int shopId)
+        {
+            await this.shopService.AddProductToShopAsync(shopId, productId);
+        }
+
+        public async Task<int> CreateProductAsync(ProductCreateInputModel inputModel, string producerId)
         {
             var product = this.Mapper.Map<Product>(inputModel);
             product.ProducerId = producerId;
+
             await this.DbContext.Products.AddAsync(product);
             await this.DbContext.SaveChangesAsync();
 
@@ -36,10 +45,13 @@ namespace Charshyia.Services
             var product = await this.DbContext
                 .Products
                 .Include(p => p.Producer)
+                .Include(p => p.Shops)
+                    .ThenInclude(s => s.Shop)
                 .Where(p => p.Id == productId)
                 .FirstOrDefaultAsync();
 
             var viewModel = this.Mapper.Map<ProductDetailsViewModel>(product);
+            viewModel.Shops = this.Mapper.Map<List<ShopDetailsViewModel>>(product.Shops.Select(x => x.Shop));
 
             return viewModel;
         }

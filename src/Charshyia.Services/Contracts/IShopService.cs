@@ -13,7 +13,10 @@ namespace Charshyia.Services.Contracts
 
         Task<ShopDetailsViewModel> GetShopByIdAsync(int shopId);
 
-        void AddProductToShop(int shopId, int productId);
+        // TODO: Make this method async
+        Task AddProductToShopAsync(int shopId, int productId);
+
+        List<ShopDetailsViewModel> GetUserShops(string userId);
 
         //Task CreatePartnershipRequest(CharshyiaUser fromUser, CharshyiaUser toUser, int shopId);
 
