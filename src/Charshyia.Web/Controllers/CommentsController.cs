@@ -25,5 +25,12 @@ namespace Charshyia.Web.Controllers
             this.commnetService.AddCommentToProduct(productId, commnetContent);
             return this.RedirectToAction("Details", "Products", new { Id = productId });
         }
+
+        [HttpPost]
+        public IActionResult AddCommentToShop(int shopId, string commnetContent)
+        {
+            this.commnetService.AddCommentToShop(shopId, commnetContent);
+            return this.RedirectToAction("Details", "Shops", new { Id = shopId });
+        }
     }
 }

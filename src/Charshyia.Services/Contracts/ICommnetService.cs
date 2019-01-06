@@ -7,5 +7,7 @@ namespace Charshyia.Services.Contracts
     public interface ICommnetService
     {
         void AddCommentToProduct(int productId, string commentContent);
+
+        void AddCommentToShop(int shopId, string commentContent);
     }
 }

@@ -46,12 +46,14 @@ namespace Charshyia.Services
                 .Include(p => p.Products)
                     .ThenInclude(p => p.Product)
                     .ThenInclude(p => p.Producer)
+                .Include(s => s.Comments)
                 .Where(s => s.Id == shopId)
                 .FirstOrDefaultAsync();
 
             var viewModel = this.Mapper.Map<ShopDetailsViewModel>(shop);
             viewModel.Products = this.Mapper.Map<List<ProductDetailsViewModel>>(shop.Products.Select(x => x.Product));
             viewModel.Producers = this.Mapper.Map<List<UserDetailsViewModel>>(shop.Producers.Select(x => x.Producer));
+            viewModel.Comments = this.Mapper.Map<List<string>>(shop.Comments.Select(x => x.CommentContent));
 
 
 

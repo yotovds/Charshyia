@@ -23,5 +23,14 @@ namespace Charshyia.Services
 
             this.DbContext.SaveChanges();
         }
+
+        public void AddCommentToShop(int shopId, string commentContent)
+        {
+            this.DbContext
+                .ShopComments
+                .Add(new ShopComment { ShopId = shopId, CommentContent = commentContent });
+
+            this.DbContext.SaveChanges();
+        }
     }
 }

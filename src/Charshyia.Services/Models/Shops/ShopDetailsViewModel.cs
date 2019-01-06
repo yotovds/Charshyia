@@ -12,7 +12,7 @@ namespace Charshyia.Services.Models.Shops
         {
             this.Products = new List<ProductDetailsViewModel>();
             this.Producers = new List<UserDetailsViewModel>();
-            //this.Comments = new HashSet<ShopComment>();
+            this.Comments = new List<string>();
         }
 
         public int Id { get; set; }
@@ -27,6 +27,6 @@ namespace Charshyia.Services.Models.Shops
 
         public ICollection<UserDetailsViewModel> Producers { get; set; }
 
-        //public ICollection<ShopComment> Comments { get; set; }
+        public ICollection<string> Comments { get; set; }
     }
 }
