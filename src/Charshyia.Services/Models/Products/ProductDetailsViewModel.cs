@@ -23,6 +23,8 @@ namespace Charshyia.Services.Models.Products
 
         public string Description { get; set; }
 
+        public string ImageUrl { get; set; }
+
         public string ProducerId { get; set; }
 
         public string Producer { get; set; }

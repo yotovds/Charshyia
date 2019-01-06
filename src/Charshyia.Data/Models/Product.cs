@@ -20,6 +20,8 @@ namespace Charshyia.Data.Models
 
         public string Description { get; set; }
 
+        public string ImageUrl { get; set; }
+
         public string ProducerId { get; set; }
 
         public CharshyiaUser Producer { get; set; }

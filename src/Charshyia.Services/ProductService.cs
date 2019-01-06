@@ -11,6 +11,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Charshyia.Services.Models.Shops;
+using Microsoft.AspNetCore.Http;
+using CloudinaryDotNet;
+using CloudinaryDotNet.Actions;
 
 namespace Charshyia.Services
 {
@@ -33,6 +36,19 @@ namespace Charshyia.Services
         {
             var product = this.Mapper.Map<Product>(inputModel);
             product.ProducerId = producerId;
+
+            var image = inputModel.Image;
+
+            Account account = new Account("dr8axwivq", "766763689436115", "I9KoG0cgt3QoCd3Dp2K2QpHMpsM");
+            Cloudinary cloudinary = new Cloudinary(account);
+
+            var uploadParams = new ImageUploadParams()
+            {
+                File = new FileDescription(@"image.jpg", image.OpenReadStream())
+            };
+            var uploadResult = cloudinary.Upload(uploadParams);
+
+            product.ImageUrl = uploadResult.Uri.ToString();
 
             await this.DbContext.Products.AddAsync(product);
             await this.DbContext.SaveChangesAsync();
