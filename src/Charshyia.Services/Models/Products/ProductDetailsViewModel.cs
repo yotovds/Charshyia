@@ -12,6 +12,7 @@ namespace Charshyia.Services.Models.Products
         public ProductDetailsViewModel()
         {
             this.Shops = new List<ShopDetailsViewModel>();
+            this.Commnets = new List<string>();
         }
 
         public int Id { get; set; }
@@ -27,6 +28,8 @@ namespace Charshyia.Services.Models.Products
         public string Producer { get; set; }
 
         public ICollection<ShopDetailsViewModel> Shops { get; set; }
+
+        public ICollection<string> Commnets { get; set; }
 
     }
 }

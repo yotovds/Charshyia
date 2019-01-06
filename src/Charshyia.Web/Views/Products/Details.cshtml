@@ -36,7 +36,24 @@
                 </form>
             </div>
 
-            
+
         }
+    </div>
+    <div>
+        @foreach (var comment in Model.Commnets)
+        {
+            <p>@comment</p>
+        }
+    </div>
+    <div>
+        <form asp-controller="Comments" asp-action="AddCommentToProduct" method="post">
+            <div class="form-group">
+                <textarea type="" name="commnetContent" placeholder="Comment..."></textarea>
+                <input hidden name="productId" value="@Model.Id" />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Add Comment" class="btn btn-primary" />
+            </div>
+        </form>
     </div>
 </div>
