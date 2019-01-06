@@ -18,21 +18,11 @@ namespace Charshyia.Services
         {
         }
 
-        //public Task CreatePartnershipRequest(CharshyiaUser fromUser, CharshyiaUser toUser, int shopId)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //public void ResponseToParthership(int partnershipResponse, int partnershipId)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
         public async Task CreatePartnershipRequest(CharshyiaUser fromUser, CharshyiaUser toUser, int shopId)
         {
-            await this.DbContext
+            this.DbContext
                 .Partnerships
-                .AddAsync(new Partnership
+                .Add(new Partnership
                 {
                     FromUser = fromUser,
                     ToUser = toUser,

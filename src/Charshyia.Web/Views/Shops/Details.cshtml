@@ -2,6 +2,9 @@
 
 @{
     ViewData["Title"] = "Shop Details";
+    var currentUser = this.userService.GetUserViewModel(this.UserManager.GetUserId(this.User));
+    var currentUserProducts = new SelectList(currentUser.Products, "Id", "Name");
+    bool userCanAddProduct = Model.Producers.Select(p => p.Id).Contains(currentUser.Id);
 }
 
 <div>
@@ -20,6 +23,31 @@
         @foreach (var p in Model.Producers)
         {
             <p>@p.Username</p>
+        }
+    </div>
+    <div>
+        @if (userCanAddProduct)
+        {
+            <form asp-controller="Products" asp-action="AddProductToShop" method="post">
+                <div class="form-group">
+                    <select name="productId" asp-items="currentUserProducts"></select>
+                    <input hidden name="shopId" value="@Model.Id" />
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" value="AddToShop" class="btn btn-primary" />
+                </div>
+            </form>
+
+            <form asp-controller="Partneships" asp-action="SendRequestToProducer" method="post">
+                <div class="form-group">
+                    <input type="text" name="username" />
+                    <input hidden name="shopId" value="@Model.Id" />
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Add producer to @Model.Name shop" class="btn btn-primary" />
+                </div>
+            </form>
         }
     </div>
 </div>

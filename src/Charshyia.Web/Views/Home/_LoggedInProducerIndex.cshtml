@@ -1,30 +1,35 @@
 ﻿@*@model Charshyia.Services.Models.Home.HomeIndexViewModel*@
-
+@model Charshyia.Services.Models.Users.UserDetailsViewModel
 @{
-//var userProducts = this.productService.GetCurrentUserProducts(this.UserManager.GetUserId(this.User)).ToList();
-//var userShops = this.shopService.GetUserShops(this.UserManager.GetUserId(this.User)).ToList();
-//;
+    //var userProducts = this.productService.GetCurrentUserProducts(this.UserManager.GetUserId(this.User)).ToList();
+    //var userShops = this.shopService.GetUserShops(this.UserManager.GetUserId(this.User)).ToList();
+    ;
 }
-
+<h3>My products:</h3>
 <div class="d-inline">
-    @*<h3>My products:</h3>*@
-    @*<div>
-        @foreach (var product in userProducts)
+    <div class="row">
+        @foreach (var product in Model.Products)
         {
             <a asp-controller="Products" asp-action="Details" asp-route-id="@product.Id">
-                <div class="d-inline">@product.Name</div>
+                <div class="d-inline">
+                    <p>@product.Name</p>
+                    <p>@product.Description</p>
+                    <p>$@product.Price </p>
+                </div>
             </a>
         }
     </div>
-    <div>
-        <h3>Shops</h3>
-        @foreach (var shop in userShops)
+    <h3>Shops:</h3>
+    <div class="row">
+        @foreach (var shop in Model.Shops)
         {
             <a asp-controller="Shops" asp-action="Details" asp-route-id="@shop.Id">
-                <div class="d-inline">@shop.Name</div>
+                <div class="d-inline">
+                    <p>@shop.Name</p>
+                </div>
             </a>
         }
-    </div>*@
+    </div>
 </div>
 
 

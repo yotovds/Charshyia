@@ -16,6 +16,6 @@ namespace Charshyia.Services.Contracts
 
         Task AddProductToShop(int productId, int shopId);
 
-        //Task<List<ProductDetailsViewModel>> GetCurrentUserProductsAsync(string userId);
+        //List<ProductDetailsViewModel> GetCurrentUserProducts(string userId);
     }
 }

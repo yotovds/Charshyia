@@ -5,7 +5,6 @@
     var currentUserId = this.UserManager.GetUserId(this.User);
     bool userCanManipulateThisProduct = Model.ProducerId == currentUserId;
     var userShops = new SelectList(this.userService.GetUserViewModel(currentUserId).Shops, "Id", "Name");
-    ;
 }
 
 <div>
@@ -21,7 +20,7 @@
         {
             <p>@p.Name</p>
         }
-    </div>foreach
+    </div>
     <div>
         @if (userCanManipulateThisProduct)
         {

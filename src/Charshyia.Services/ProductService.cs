@@ -40,6 +40,18 @@ namespace Charshyia.Services
             return product.Id;
         }
 
+        //public List<ProductDetailsViewModel> GetCurrentUserProducts(string userId)
+        //{
+        //    var products = this.DbContext
+        //        .Products
+        //        .Where(p => p.ProducerId == userId)
+        //        .ToList();
+
+        //    var productsViewModel = this.Mapper.Map<List<ProductDetailsViewModel>>(products);
+
+        //    return productsViewModel;
+        //}
+
         public async Task<ProductDetailsViewModel> GetProductByIdAsync(int productId)
         {
             var product = await this.DbContext

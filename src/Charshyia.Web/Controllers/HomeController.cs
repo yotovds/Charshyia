@@ -22,16 +22,12 @@ namespace Charshyia.Web.Controllers
         {
             if (this.CurrentUser != null)
             {
-                var viewModel = new HomeIndexViewModel
-                {
-                    UserDetails = this.userService.GetUserViewModel(this.CurrentUser.Id)
-                };
+                var viewModel = this.userService.GetUserViewModel(this.CurrentUser.Id);
 
                 return View(viewModel);
             }
 
-            return this.View();
-            
+            return this.View();            
         }
 
         public IActionResult About()

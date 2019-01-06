@@ -10,7 +10,7 @@
             @foreach (var notification in parnershipRequests)
             {
                 <p>From @notification.FromUser.UserName in @notification.Shop.Name</p>
-                <form asp-controller="Shops" asp-action="ResponseToPartnership" method="post">
+                <form asp-controller="Partneships" asp-action="ResponseToPartnership" method="post">
                     <label for="accept">Accept</label>
                     <input type="radio" id="accept" name="partnershipResponse" value="1" />
                     <label for="reject">Reject</label>

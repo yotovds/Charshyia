@@ -38,25 +38,7 @@ namespace Charshyia.Web.Controllers
         {
             var viewModel = await this.shopService.GetShopByIdAsync(id);
             return this.View(viewModel);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> SendRequestToProducer(string username, int shopId)
-        {
-            var fromUser = this.CurrentUser;
-            var toUser = await this.userManager.FindByNameAsync(username);
-
-            await this.partnershipService.CreatePartnershipRequest(fromUser, toUser, shopId);
-
-            return this.RedirectToAction("Details", new { id = shopId });
-        }
-
-        [HttpPost]
-        public IActionResult ResponseToPartnership(int partnershipResponse, int partnershipId)
-        {
-            this.partnershipService.ResponseToParthership(partnershipResponse, partnershipId);
-            return RedirectToAction("Index", "Home");
-        }
+        }        
 
         [HttpPost]
         public IActionResult AddProduct(int shopId, int productId)
