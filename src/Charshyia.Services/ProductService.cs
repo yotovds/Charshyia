@@ -2,18 +2,14 @@
 using Charshyia.Data;
 using Charshyia.Data.Models;
 using Charshyia.Services.Contracts;
-using Charshyia.Services.Models;
 using Charshyia.Services.Models.Products;
-using System;
-using System.Linq;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 using Charshyia.Services.Models.Shops;
-using Microsoft.AspNetCore.Http;
 using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Charshyia.Services
 {
@@ -21,7 +17,7 @@ namespace Charshyia.Services
     {
         private readonly IShopService shopService;
 
-        public ProductService(CharshyiaDbContext context, IMapper mapper, IShopService shopService) 
+        public ProductService(CharshyiaDbContext context, IMapper mapper, IShopService shopService)
             : base(context, mapper)
         {
             this.shopService = shopService;
@@ -39,16 +35,24 @@ namespace Charshyia.Services
 
             var image = inputModel.Image;
 
-            Account account = new Account("dr8axwivq", "766763689436115", "I9KoG0cgt3QoCd3Dp2K2QpHMpsM");
-            Cloudinary cloudinary = new Cloudinary(account);
-
-            var uploadParams = new ImageUploadParams()
+            if (image != null)
             {
-                File = new FileDescription(@"image.jpg", image.OpenReadStream())
-            };
-            var uploadResult = cloudinary.Upload(uploadParams);
+                Account account = new Account("dr8axwivq", "766763689436115", "I9KoG0cgt3QoCd3Dp2K2QpHMpsM");
+                Cloudinary cloudinary = new Cloudinary(account);
 
-            product.ImageUrl = uploadResult.Uri.ToString();
+                var uploadParams = new ImageUploadParams()
+                {
+                    File = new FileDescription(@"image.jpg", image.OpenReadStream())
+                };
+                var uploadResult = cloudinary.Upload(uploadParams);
+                
+
+                product.ImageUrl = uploadResult.Uri.ToString();
+            }
+            if (string.IsNullOrWhiteSpace(product.ImageUrl))
+            {
+                product.ImageUrl = "https://res.cloudinary.com/dr8axwivq/image/upload/v1546794753/test.jpg";
+            }
 
             await this.DbContext.Products.AddAsync(product);
             await this.DbContext.SaveChangesAsync();
@@ -81,7 +85,7 @@ namespace Charshyia.Services
 
             var viewModel = this.Mapper.Map<ProductDetailsViewModel>(product);
             viewModel.Shops = this.Mapper.Map<List<ShopDetailsViewModel>>(product.Shops.Select(x => x.Shop));
-            viewModel.Commnets = this.Mapper.Map<List<string>>(product.Comments.Select(x => x.Content));
+            viewModel.Commnets = this.Mapper.Map<List<string>>(product.Comments.Select(x => x.CommentContent));
 
             return viewModel;
         }

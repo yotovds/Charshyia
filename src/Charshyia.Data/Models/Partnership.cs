@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Charshyia.Data.Models.Enums;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -18,12 +19,5 @@ namespace Charshyia.Data.Models
         public Shop Shop { get; set; }
 
         public PartnershipStatus Status { get; set; }
-    }
-
-    public enum PartnershipStatus
-    {
-        WaitingToResponse = 1,
-        Accepted = 2,
-        Rejected = 3
     }
 }

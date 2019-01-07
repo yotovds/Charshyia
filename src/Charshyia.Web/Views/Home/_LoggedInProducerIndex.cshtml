@@ -1,17 +1,38 @@
 ﻿@model Charshyia.Services.Models.Users.UserDetailsViewModel
+@{ 
+    var producerOrders = this.orderService.GetCurrentProducerOrders(this.UserManager.GetUserId(this.User));
+    ;
+}
 
+<div class="d-inline">
+    @foreach (var order in producerOrders)
+    {
+        <div>
+            <p>Order for @order.Product.Name product in @order.Shop.Name shop, from user @order.User.Username.</p>
+            <div>
+                <form asp-controller="Orders" asp-action="ProducerConfirmOrder">
+                    <button type="submit" name="id" value="@order.Id">Confirm</button>
+                </form>
+                <form>
+                    <input type="submit" value="Reject" />
+                </form>
+            </div>
+        </div>
+    }
+</div>
 <h3>My products:</h3>
 <div class="d-inline">
     <div class="row">
         @foreach (var product in Model.Products)
         {
-            <a asp-controller="Products" asp-action="Details" asp-route-id="@product.Id">
-                <div class="d-inline">
+            <div class="d-inline">
+                <a asp-controller="Products" asp-action="Details" asp-route-id="@product.Id">
+
+                    <img src="@product.ImageUrl" />
                     <p>@product.Name</p>
-                    <p>@product.Description</p>
                     <p>$@product.Price </p>
-                </div>
-            </a>
+                </a>
+            </div>
         }
     </div>
     <h3>Shops:</h3>

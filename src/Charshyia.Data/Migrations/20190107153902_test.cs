@@ -203,7 +203,7 @@ namespace Charshyia.Data.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     ProductId = table.Column<int>(nullable: false),
-                    Content = table.Column<string>(nullable: true)
+                    CommentContent = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {

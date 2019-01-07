@@ -1,0 +1,21 @@
+﻿@model Charshyia.Services.Models.Orders.OrderDetailsViewModel
+
+@{
+    ViewData["Title"] = "Order Details";
+}
+
+<div>
+    <p>Order Id - @Model.Id</p>
+    <p>Product producer: @Model.Product.Producer</p>
+    <p>Shop: @Model.Shop.Name - id: @Model.Shop.Id</p>
+    <p>Product: @Model.Product.Name - id: @Model.Product.Id</p>
+    <p>OderStatus: @Model.Status</p>
+</div>
+<div>
+    <form asp-controller="Orders" asp-action="UserConfirmOrder">
+        <button type="submit" name="id" value="@Model.Id">Confirm</button>
+    </form>
+    <form>
+        <input type="submit" value="Reject" />
+    </form>
+</div>

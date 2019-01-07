@@ -4,14 +4,16 @@ using Charshyia.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Charshyia.Data.Migrations
 {
     [DbContext(typeof(CharshyiaDbContext))]
-    partial class CharshyiaDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190107193003_test1111")]
+    partial class test1111
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

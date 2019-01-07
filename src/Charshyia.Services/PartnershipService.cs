@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Charshyia.Data;
 using Charshyia.Data.Models;
+using Charshyia.Data.Models.Enums;
 using Charshyia.Services.Contracts;
 using Microsoft.EntityFrameworkCore;
 using System;

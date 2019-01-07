@@ -4,14 +4,16 @@ using Charshyia.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Charshyia.Data.Migrations
 {
     [DbContext(typeof(CharshyiaDbContext))]
-    partial class CharshyiaDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190107181823_test111")]
+    partial class test111
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -75,8 +77,6 @@ namespace Charshyia.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("ProducerMessage");
 
                     b.Property<int>("ProductId");
 

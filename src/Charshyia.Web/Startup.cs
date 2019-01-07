@@ -4,6 +4,7 @@ using Charshyia.Data.Models;
 using Charshyia.Services;
 using Charshyia.Services.Contracts;
 using Charshyia.Services.Models;
+using Charshyia.Services.Models.Orders;
 using Charshyia.Services.Models.Products;
 using Charshyia.Services.Models.Shops;
 using Charshyia.Services.Models.Users;
@@ -89,6 +90,9 @@ namespace Charshyia.Web
                 configuration.CreateMap<ShopUser, UserDetailsViewModel>();
 
                 configuration.CreateMap<ShopProduct, ShopDetailsViewModel>();
+
+                configuration.CreateMap<Order, OrderDetailsViewModel>();
+                configuration.CreateMap<OrderDetailsViewModel, Order>();
             });
 
             // My services
@@ -97,6 +101,7 @@ namespace Charshyia.Web
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IPartnershipService, PartnershipService>();
             services.AddScoped<ICommnetService, CommnetService>();
+            services.AddScoped<IOrderService, OrderService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -186,8 +191,9 @@ namespace Charshyia.Web
                             Name = userProducer.UserName + "Product" + j,
                             Price = new Random().Next(5, 1000),
                             Description = "DescriptionDescriptionDescription",
-                            ProducerId = userProducer.Id
-                        };
+                            ProducerId = userProducer.Id,
+                            ImageUrl = "https://res.cloudinary.com/dr8axwivq/image/upload/v1546794753/test.jpg"
+                    };
 
                         db.Products.Add(product);
                     }

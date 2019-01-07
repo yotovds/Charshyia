@@ -19,7 +19,7 @@ namespace Charshyia.Services
         {
             this.DbContext
                 .ProductComments
-                .Add(new ProductComment { ProductId = productId, Content = commentContent});
+                .Add(new ProductComment { ProductId = productId, CommentContent = commentContent});
 
             this.DbContext.SaveChanges();
         }

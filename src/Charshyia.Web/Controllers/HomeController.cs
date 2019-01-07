@@ -2,6 +2,7 @@
 using Charshyia.Services.Contracts;
 using Charshyia.Services.Models;
 using Charshyia.Services.Models.Home;
+using Charshyia.Services.Models.Users;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
@@ -27,7 +28,7 @@ namespace Charshyia.Web.Controllers
                 return View(viewModel);
             }
 
-            return this.View();            
+            return this.View(new UserDetailsViewModel());            
         }
 
         public IActionResult About()

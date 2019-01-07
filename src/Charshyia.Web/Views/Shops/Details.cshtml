@@ -11,12 +11,27 @@
     <div>
         <h3>Shop @Model.Name Details</h3>
     </div>
-    <div>
-        <h5>Shop Products:</h5>
-        @foreach (var p in Model.Products)
+    <h5>Shop Products:</h5>
+    <div class="row">
+        @foreach (var product in Model.Products)
         {
-            <p>@p.Name - @p.Price</p>
+            <div class="d-inline">
+                <a asp-controller="Products" asp-action="Details" asp-route-id="@product.Id">
+                    <img src="@product.ImageUrl" />
+                    <p>@product.Name</p>
+                    <p>$@product.Price </p>
+                </a>
+                <form asp-controller="Orders" asp-action="OrderProduct" method="post">
+                    <input hidden name="productId" value="@product.Id" />
+                    <input hidden name="shopId" value="@Model.Id" />
+                    <input type="submit" value="Add to Order" class="btn btn-primary" />
+                </form>
+            </div>
         }
+
+        <div>
+            <h3>Order:</h3>
+        </div>
     </div>
     <div>
         <h5>Shop Producers:</h5>
@@ -70,6 +85,7 @@
         </div>
     </div>
 </div>
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

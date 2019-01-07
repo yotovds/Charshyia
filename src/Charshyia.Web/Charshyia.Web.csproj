@@ -22,6 +22,9 @@
     <Content Update="Views\Home\_LoggedInProducerIndex.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
+    <Content Update="Views\Orders\Details.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Views\Shared\_ParnershipRequests.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
