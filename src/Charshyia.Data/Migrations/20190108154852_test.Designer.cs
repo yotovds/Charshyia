@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Charshyia.Data.Migrations
 {
     [DbContext(typeof(CharshyiaDbContext))]
-    [Migration("20190107170603_test11")]
-    partial class test11
+    [Migration("20190108154852_test")]
+    partial class test
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -78,9 +78,13 @@ namespace Charshyia.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("ProducerMessage");
+
                     b.Property<int>("ProductId");
 
                     b.Property<int>("ShopId");
+
+                    b.Property<int>("Status");
 
                     b.Property<string>("UserId");
 

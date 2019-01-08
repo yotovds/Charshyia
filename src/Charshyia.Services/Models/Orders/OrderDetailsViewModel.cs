@@ -1,4 +1,5 @@
-﻿using Charshyia.Services.Models.Products;
+﻿using Charshyia.Data.Models.Enums;
+using Charshyia.Services.Models.Products;
 using Charshyia.Services.Models.Shops;
 using Charshyia.Services.Models.Users;
 using System;
@@ -17,6 +18,6 @@ namespace Charshyia.Services.Models.Orders
 
         public ShopDetailsViewModel Shop { get; set; }
 
-        public string Status { get; set; }
+        public OrderStatus Status { get; set; }
     }
 }

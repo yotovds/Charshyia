@@ -18,5 +18,7 @@ namespace Charshyia.Services.Contracts
         List<OrderDetailsViewModel> GetCurrentProducerOrders(string producerId);
 
         int ProducerConfirmOrder(int orderId, CharshyiaUser user);
+
+        int ShopConfirmOrder(int orderId, CharshyiaUser user);
     }
 }

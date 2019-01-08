@@ -67,9 +67,21 @@ namespace Charshyia.Services
         {
             var order = this.DbContext
                 .Orders
-                .Where(o => o.Id == orderId && o.UserId == user.Id)
+                .Where(o => o.Id == orderId && o.Product.ProducerId == user.Id)
                 .FirstOrDefault();
             order.Status = OrderStatus.ProducerConfirmed;
+            this.DbContext.SaveChanges();
+
+            return order.ShopId;
+        }
+
+        public int ShopConfirmOrder(int orderId, CharshyiaUser user)
+        {
+            var order = this.DbContext
+                .Orders
+                .Where(o => o.Id == orderId && o.Product.ProducerId == user.Id)
+                .FirstOrDefault();
+            order.Status = OrderStatus.ShopConfirmed;
             this.DbContext.SaveChanges();
 
             return order.ShopId;

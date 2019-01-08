@@ -1,10 +1,39 @@
 @if (SignInManager.IsSignedIn(User))
 {
+    var currentUser = await this.UserManager.GetUserAsync(this.User);
+    var userRole = await this.UserManager.GetRolesAsync(currentUser);
+
     <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" method="post" id="logoutForm" class="navbar-right">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-                <a asp-area="Identity" asp-page="/Account/Manage/Index" class="btn navbar-btn nav-link" title="Manage">Hello @UserManager.GetUserName(User)!</a>
+                <a asp-area="Identity" asp-page="/Account/Manage/Index" class="btn navbar-btn nav-link" title="Manage">Logged as: @userRole[0] - @UserManager.GetUserName(User)</a>
             </li>
+
+            @if (this.User.IsInRole("Producer"))
+            {
+                <li class="nav-item">
+                    <a asp-controller="Products" asp-action="Create" class="nav-link">Create Product</a>
+                </li>
+                <li class="nav-item">
+                    <a asp-controller="Shops" asp-action="Create" class="nav-link">Create Shop</a>
+                </li>
+                <li class="nav-item">
+                    <partial name="_ParnershipRequests" />
+                </li>
+
+            }
+            else if (this.User.IsInRole("User"))
+            {
+                <li class="nav-item">
+                    <a class="nav-link">SomeUserLink1</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link">SomeUserLink2</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link">SomeUserLink3</a>
+                </li>
+            }
             <li class="nav-item">
                 <button type="submit" class="btn navbar-btn nav-link">Logout</button>
             </li>

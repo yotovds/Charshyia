@@ -176,7 +176,7 @@ namespace Charshyia.Web
                 {
                     var userProducer = new CharshyiaUser
                     {
-                        UserName = "producer" + userNames[i],
+                        UserName = userNames[i],
                         Email = userNames[i] + "@mail.bg",
                         PhoneNumber = "08966600" + i
                     };
@@ -201,7 +201,7 @@ namespace Charshyia.Web
 
                     var user = new CharshyiaUser
                     {
-                        UserName = "user" + userNames[i],
+                        UserName =  userNames[i] + i,
                         Email = userNames[i] + "@mail.bg",
                         PhoneNumber = "08966600" + i
                     };

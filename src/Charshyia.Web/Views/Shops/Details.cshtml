@@ -1,13 +1,13 @@
 ﻿@model Charshyia.Services.Models.Shops.ShopDetailsViewModel
-
 @{
     ViewData["Title"] = "Shop Details";
     var currentUser = this.userService.GetUserViewModel(this.UserManager.GetUserId(this.User));
     var currentUserProducts = new SelectList(currentUser.Products, "Id", "Name");
     bool userCanAddProduct = Model.Producers.Select(p => p.Id).Contains(currentUser.Id);
+    var producerOrders = this.orderService.GetCurrentProducerOrders(currentUser.Id).Where(o => o.Status == OrderStatus.ProducerConfirmed);
 }
 
-<div>
+<div class="container row">
     <div>
         <h3>Shop @Model.Name Details</h3>
     </div>
@@ -28,10 +28,22 @@
                 </form>
             </div>
         }
+    </div>
+    <div>
+        <h3>Order:</h3>
+        @foreach (var order in producerOrders)
+        {
+            <p>Confirm order from @order.User.Username user, for @order.Product.Name product.</p>
+            <div>
+                <form asp-controller="Orders" asp-action="ShopConfirmOrder">
+                    <button type="submit" name="id" value="@order.Id">Confirm</button>
+                </form>
+                <form>
+                    <input type="submit" value="Reject" />
+                </form>
+            </div>
+        }
 
-        <div>
-            <h3>Order:</h3>
-        </div>
     </div>
     <div>
         <h5>Shop Producers:</h5>

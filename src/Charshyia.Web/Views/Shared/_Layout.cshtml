@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Charshyia.Web</title>
+    <title>@ViewData["Title"]Charshyia</title>
 
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
@@ -34,7 +34,7 @@
     <partial name="_CookieConsentPartial" />
 
     <main class="row">
-        <div class="col-sm-3 col-md-2 hidden-xs-down bg-faded sidebar">
+        @*<div class="col-sm-3 col-md-2 hidden-xs-down bg-faded sidebar">
             @if (this.User.IsInRole("Producer"))
             {
                 <ul class="nav nav-pills flex-column">
@@ -53,7 +53,7 @@
             {
                 <ul class="nav nav-pills flex-column">
                     <li class="nav-item">
-                        @*<a asp-controller="Products" asp-action="Create" class="nav-link">Create Product</a>*@
+                        <a asp-controller="Products" asp-action="Create" class="nav-link">Create Product</a>
                         <a>SomeUserLink1</a>
                     </li>
                     <li class="nav-item">
@@ -64,7 +64,7 @@
                     </li>
                 </ul>
             }
-        </div>
+        </div>*@
         @RenderBody()
     </main>
 

@@ -1,0 +1,21 @@
+﻿@{
+    var partnershipRequests = (List<Partnership>)this.ViewData["requests"];
+    <div class="container col-sm-5">
+        @foreach (var request in partnershipRequests)
+        {
+            <div class="form-row text-lg-center">
+                From producer @request.FromUser.UserName in @request.Shop.Name
+                <hr />
+                <form asp-controller="Partneships" asp-action="ResponseToPartnership" method="post">
+                    <label for="accept">Accept</label>
+                    <input type="radio" id="accept" name="partnershipResponse" value="1" />
+                    <label for="reject">Reject</label>
+                    <input type="radio" id="reject" name="partnershipResponse" value="0" />
+                    <input hidden type="number" name="PartnershipId" value="@request.Id" />
+                    <button type="submit" class="btn navbar-btn nav-link">Send response</button>
+                </form>
+            </div>
+            <hr class="danger" />
+        }
+    </div>
+}

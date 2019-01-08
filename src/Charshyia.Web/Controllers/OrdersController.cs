@@ -47,5 +47,13 @@ namespace Charshyia.Web.Controllers
 
             return RedirectToAction("Details", "Shops", new { id = shopId });
         }
+
+        [HttpPost]
+        public IActionResult ShopConfirmOrder(int id)
+        {
+            var shopId = this.orderService.ShopConfirmOrder(id, CurrentUser);
+
+            return RedirectToAction("Details", "Shops", new { id = shopId });
+        }
     }
 }

@@ -36,5 +36,11 @@ namespace Charshyia.Web.Controllers
             this.partnershipService.ResponseToParthership(partnershipResponse, partnershipId);
             return RedirectToAction("Index", "Home");
         }
+
+        public IActionResult ShowPartneshipsRequests()
+        {
+            this.ViewData["requests"] = this.partnershipService.GetUserRequest(CurrentUser);
+            return this.View();
+        }
     }
 }

@@ -1,21 +1,19 @@
 @{
     if (SignInManager.IsSignedIn(User))
     {
-        var parnershipRequests = this.parnershipService.GetUserRequest(this.UserManager.GetUserAsync(this.User).GetAwaiter().GetResult()).ToList();
+        var parnershipsCount = this.parnershipService.GetUserRequest(this.UserManager.GetUserAsync(this.User).GetAwaiter().GetResult()).Count;
+        if (parnershipsCount > 0)
+        {
+            <a asp-controller="Partneships" asp-action="ShowPartneshipsRequests" class="nav-link">New Partneships (@parnershipsCount)</a>
+        }
+
+
         <div>
-            <h6>Partnership requests:</h6>
-            @foreach (var notification in parnershipRequests)
-            {
-                <p>From @notification.FromUser.UserName in @notification.Shop.Name</p>
-                <form asp-controller="Partneships" asp-action="ResponseToPartnership" method="post">
-                    <label for="accept">Accept</label>
-                    <input type="radio" id="accept" name="partnershipResponse" value="1" />
-                    <label for="reject">Reject</label>
-                    <input type="radio" id="reject" name="partnershipResponse" value="0" />
-                    <input hidden type="number" name="PartnershipId" value="@notification.Id" />
-                    <button type="submit" class="btn navbar-btn nav-link">SendResponse</button>
-                </form>
-            }
+            @*<h6>Partnership requests:</h6>
+                @foreach (var notification in parnershipRequests)
+                {
+                    
+                }*@
         </div>
     }
 
