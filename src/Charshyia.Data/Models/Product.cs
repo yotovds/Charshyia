@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Charshyia.Data.Models.Enums;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -23,6 +24,8 @@ namespace Charshyia.Data.Models
         public string ImageUrl { get; set; }
 
         public string ProducerId { get; set; }
+
+        public ProductCategory Category { get; set; }
 
         public CharshyiaUser Producer { get; set; }
 

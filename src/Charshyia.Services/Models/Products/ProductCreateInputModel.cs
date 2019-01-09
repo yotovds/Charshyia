@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Charshyia.Data.Models.Enums;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,5 +22,7 @@ namespace Charshyia.Services.Models.Products
         public IFormFile Image { get; set; }
 
         public string ProducerId { get; set; }
+
+        public ProductCategory Category { get; set; }
     }
 }

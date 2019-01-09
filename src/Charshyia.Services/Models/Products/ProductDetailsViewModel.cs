@@ -1,4 +1,5 @@
 ﻿using Charshyia.Data.Models;
+using Charshyia.Data.Models.Enums;
 using Charshyia.Services.Models.Shops;
 using Charshyia.Services.Models.Users;
 using System;
@@ -28,6 +29,8 @@ namespace Charshyia.Services.Models.Products
         public string ProducerId { get; set; }
 
         public string Producer { get; set; }
+
+        public ProductCategory Category { get; set; }
 
         public ICollection<ShopDetailsViewModel> Shops { get; set; }
 
