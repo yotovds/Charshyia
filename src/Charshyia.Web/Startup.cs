@@ -102,6 +102,7 @@ namespace Charshyia.Web
             services.AddScoped<IPartnershipService, PartnershipService>();
             services.AddScoped<ICommnetService, CommnetService>();
             services.AddScoped<IOrderService, OrderService>();
+            services.AddScoped<ISearchService, SearchService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
