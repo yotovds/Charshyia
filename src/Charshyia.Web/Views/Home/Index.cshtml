@@ -1,7 +1,15 @@
 ﻿<div class="container">
     @if (SignInManager.IsSignedIn(User))
     {
-        <partial name="_LoggedInProducerIndex" />
+        if (this.User.IsInRole("Producer"))
+        {
+            <partial name="_LoggedInProducerIndex" />
+        }
+        else if (this.User.IsInRole("User"))
+        {
+            <partial name="_LoggedInUserIndex" />
+        }
+
     }
     else
     {

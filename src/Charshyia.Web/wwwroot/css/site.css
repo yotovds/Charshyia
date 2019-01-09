@@ -69,3 +69,34 @@ body {
 .btn-link {
     color: #b6d3f1;
 }
+
+img.product-img-mini{
+    width: 200px;
+    height: 120px;
+}
+
+img.product-img-big {
+    width: 450px;
+    height: 400px;
+}
+
+div.img-margin{
+    margin: 5px;
+}
+
+aside {
+    margin: 15px;
+}
+
+.shop-link {
+    padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-left: 15px;
+    border-radius: 5px;
+    border: 1px solid;
+    text-decoration:none;    
+}
+.commentsContent{
+    border: 1px solid;
+}

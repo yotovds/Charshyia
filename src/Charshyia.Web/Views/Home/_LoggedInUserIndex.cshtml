@@ -1,0 +1,7 @@
+﻿@model Charshyia.Services.Models.Users.UserDetailsViewModel
+@{ 
+    var currentUser = this.UserManager.GetUserId(this.User);
+    var producerOrders = this.orderService.GetCurrentProducerOrders(currentUser).Where(o => o.Status == OrderStatus.UserConfrimed);
+}
+
+Just User Loggin

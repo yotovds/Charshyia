@@ -8,13 +8,17 @@
     @foreach (var order in producerOrders)
     {
         <div>
-            <p>Order for @order.Product.Name product in @order.Shop.Name shop, from user @order.User.Username.</p>
-            <div>
+            <p>Order for 
+                <a asp-controller="Products" asp-action="Details" asp-route-id="@order.Product.Id">@order.Product.Name</a>
+                product in
+                <a asp-controller="Shops" asp-action="Details" asp-route-id="@order.Shop.Id">@order.Shop.Name</a> shop, from user @order.User.Username.
+                </p>
+            <div class="container row">
                 <form asp-controller="Orders" asp-action="ProducerConfirmOrder">
-                    <button type="submit" name="id" value="@order.Id">Confirm</button>
+                    <button class="btn d-inline shop-link nav-link" type="submit" name="id" value="@order.Id">Confirm</button>
                 </form>
                 <form>
-                    <input type="submit" value="Reject" />
+                    <button class="btn d-inline shop-link nav-link" type="submit" name="id" value="Reject">Reject</button>
                 </form>
             </div>
         </div>
@@ -25,22 +29,23 @@
     <div class="row">
         @foreach (var product in Model.Products)
         {
-            <div class="d-inline">
+            <div class="d-inline img-margin">
                 <a asp-controller="Products" asp-action="Details" asp-route-id="@product.Id">
 
-                    <img src="@product.ImageUrl" />
+                    <img class="img-thumbnail img-fluid product-img-mini" src="@product.ImageUrl" />
                     <p>@product.Name</p>
                     <p>$@product.Price </p>
                 </a>
             </div>
         }
     </div>
-    <h3>Shops:</h3>
+
+    <h3>My shops:</h3>
     <div class="row">
         @foreach (var shop in Model.Shops)
         {
             <a asp-controller="Shops" asp-action="Details" asp-route-id="@shop.Id">
-                <div class="d-inline">
+                <div class="container text-center">
                     <p>@shop.Name</p>
                 </div>
             </a>

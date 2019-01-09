@@ -41,9 +41,9 @@ namespace Charshyia.Web.Controllers
         }        
 
         [HttpPost]
-        public IActionResult AddProduct(int shopId, int productId)
+        public async Task<IActionResult> AddProduct(int shopId, int productId)
         {
-            this.shopService.AddProductToShopAsync(shopId, productId);
+            await this.shopService.AddProductToShopAsync(shopId, productId);
 
             return RedirectToAction("Index", "Home");
         }

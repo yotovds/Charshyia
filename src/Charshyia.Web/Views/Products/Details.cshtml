@@ -6,55 +6,100 @@
     bool userCanManipulateThisProduct = Model.ProducerId == currentUserId;
     var userShops = new SelectList(this.userService.GetUserViewModel(currentUserId).Shops, "Id", "Name");
 }
+<div class="container justify text-center">
+    <section class=" d-inline-block">
+        <div class="row">
+            <aside class="col">
+                <article>
+                    <div>
+                        <img class="product-img-big" src="@Model.ImageUrl">
+                    </div>
+                </article>
+            </aside>
+            <aside class="col">
+                <article>
+                    <h3>Product: @Model.Name</h3>
+                    <h4>Description:</h4>
+                    <text>@Model.Description</text>
+                    <h4>Producer: @Model.Producer</h4>
+                    <h4>Price: @Model.Price</h4>
+                </article>
+            </aside>
+        </div>
+    </section>
+    <section>
+        <div>
+            @if (Model.Shops.Any())
+            {
+                <h4>This products is available in:</h4>
+                @foreach (var shop in Model.Shops)
+                {
+                    <div class="form-control-lg d-inline-block">
+                        <a class="text-decoration-none" asp-controller="Shops" asp-action="Details" asp-route-id="@shop.Id">
+                            <div class="d-inline shop-link nav-link">@shop.Name Shop</div>
+                        </a>
+                    </div>
+                }
+            }
+            else
+            {
+                <h4>The products is not available in any shops</h4>
+            }
 
-<div>
-    <div>
-        <h2>Product @Model.Name Details:</h2>
-        <img src="@Model.ImageUrl" />
-        <p>Description: @Model.Description</p>
-        <p>Price: @Model.Price</p>
-        <p>Producer name: @Model.Producer</p>
-    </div>
-    <div>
-        <h2>Product Shops:</h2>
-        @foreach (var p in Model.Shops)
+        </div>
+        <hr />
+    </section>
+    <section class="container text-center">
+        @if (Model.Commnets.Any())
         {
-            <p>@p.Name</p>
+            <h4>Product comments</h4>
+
         }
-    </div>
-    <div>
-        @if (userCanManipulateThisProduct)
+        else
+        {
+            <h4>Still have no comments for this product</h4>
+        }
+        <div>
+            @foreach (var comment in Model.Commnets)
+            {
+                <p>@comment</p>
+            }
+        </div>
+
+        <div>
+            <form asp-controller="Comments" asp-action="AddCommentToProduct" method="post" class="form-group">
+                <div class="d-inline-block col-5">
+                    <textarea class="form-control" name="commnetContent" rows="5" placeholder="Comment..."></textarea>
+                    <input hidden name="productId" value="@Model.Id" />
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Add Comment" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </section>
+
+    @if (userCanManipulateThisProduct)
+    {
+        if (userShops.Any() == false)
+        {
+            <h4><a asp-controller="Shops" asp-action="Create" class="nav-link">Create Shop</a></h4>
+        }
+        else
         {
             <div>
-                <form asp-controller="Products" asp-action="AddProductToShop" method="post">
-                    <div class="form-group">
-                        <select name="shopId" asp-items="@userShops"></select>
-                        <input hidden name="productId" value="@Model.Id" />
-                    </div>
-                    <div class="form-group">
-                        <input type="submit" value="AddToShop" class="btn btn-primary" />
-                    </div>
+                <h4>You can add this product to the stores you are producer</h4>
+                <form asp-controller="Shops" asp-action="AddProduct" method="post">
+                    <select class=" d-inline form-control col-6" asp-items="userShops" name="shopId">
+                        <option selected disabled>Select shop</option>
+                    </select>
+                    @*<input hidden asp-for="@Model.Id" />*@
+                    <button class="btn-primary d-inline form-control col-2" type="submit" name="productId" value="@Model.Id">Add to Shop</button>
                 </form>
             </div>
-
-
         }
-    </div>
-    <div>
-        @foreach (var comment in Model.Commnets)
-        {
-            <p>@comment</p>
-        }
-    </div>
-    <div>
-        <form asp-controller="Comments" asp-action="AddCommentToProduct" method="post">
-            <div class="form-group">
-                <textarea type="" name="commnetContent" placeholder="Comment..."></textarea>
-                <input hidden name="productId" value="@Model.Id" />
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Add Comment" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
+    }
 </div>
+
+
+

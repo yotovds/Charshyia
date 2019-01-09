@@ -3,100 +3,175 @@
     ViewData["Title"] = "Shop Details";
     var currentUser = this.userService.GetUserViewModel(this.UserManager.GetUserId(this.User));
     var currentUserProducts = new SelectList(currentUser.Products, "Id", "Name");
-    bool userCanAddProduct = Model.Producers.Select(p => p.Id).Contains(currentUser.Id);
+    bool userIsProducerInShop = Model.Producers.Select(p => p.Id).Contains(currentUser.Id);
     var producerOrders = this.orderService.GetCurrentProducerOrders(currentUser.Id).Where(o => o.Status == OrderStatus.ProducerConfirmed);
 }
-
-<div class="container row">
-    <div>
-        <h3>Shop @Model.Name Details</h3>
-    </div>
-    <h5>Shop Products:</h5>
-    <div class="row">
-        @foreach (var product in Model.Products)
+<div class="container text-center">
+    <h2>Shop: @Model.Name</h2>
+    <div class="d-inline">
+        @if (userIsProducerInShop)
         {
-            <div class="d-inline">
-                <a asp-controller="Products" asp-action="Details" asp-route-id="@product.Id">
-                    <img src="@product.ImageUrl" />
-                    <p>@product.Name</p>
-                    <p>$@product.Price </p>
-                </a>
-                <form asp-controller="Orders" asp-action="OrderProduct" method="post">
-                    <input hidden name="productId" value="@product.Id" />
-                    <input hidden name="shopId" value="@Model.Id" />
-                    <input type="submit" value="Add to Order" class="btn btn-primary" />
-                </form>
-            </div>
-        }
-    </div>
-    <div>
-        <h3>Order:</h3>
-        @foreach (var order in producerOrders)
-        {
-            <p>Confirm order from @order.User.Username user, for @order.Product.Name product.</p>
             <div>
-                <form asp-controller="Orders" asp-action="ShopConfirmOrder">
-                    <button type="submit" name="id" value="@order.Id">Confirm</button>
-                </form>
-                <form>
-                    <input type="submit" value="Reject" />
-                </form>
+                <h3>Order:</h3>
+                @foreach (var order in producerOrders)
+                {
+                    <p>Confirm order from @order.User.Username user, for @order.Product.Name product.</p>
+                    <div>
+                        <form asp-controller="Orders" asp-action="ShopConfirmOrder">
+                            <button type="submit" name="id" value="@order.Id">Confirm</button>
+                        </form>
+                        <form>
+                            <input type="submit" value="Reject" />
+                        </form>
+                    </div>
+                }
+
             </div>
         }
-
-    </div>
-    <div>
-        <h5>Shop Producers:</h5>
-        @foreach (var p in Model.Producers)
-        {
-            <p>@p.Username</p>
-        }
-    </div>
-    <div>
-        @if (userCanAddProduct)
-        {
-            <form asp-controller="Products" asp-action="AddProductToShop" method="post">
-                <div class="form-group">
-                    <select name="productId" asp-items="currentUserProducts"></select>
-                    <input hidden name="shopId" value="@Model.Id" />
-                </div>
-
-                <div class="form-group">
-                    <input type="submit" value="AddToShop" class="btn btn-primary" />
-                </div>
-            </form>
-
-            <form asp-controller="Partneships" asp-action="SendRequestToProducer" method="post">
-                <div class="form-group">
-                    <input type="text" name="username" />
-                    <input hidden name="shopId" value="@Model.Id" />
-                </div>
-                <div class="form-group">
-                    <input type="submit" value="Add producer to @Model.Name shop" class="btn btn-primary" />
-                </div>
-            </form>
-        }
-    </div>
-    <div>
-        <div>
-            @foreach (var comment in Model.Comments)
+        <h4>Shop products</h4>
+        <div class="row">
+            @foreach (var product in Model.Products)
             {
-                <p>@comment</p>
+                <div class="d-inline img-margin">
+                    <a asp-controller="Products" asp-action="Details" asp-route-id="@product.Id">
+
+                        <img class="img-thumbnail img-fluid product-img-mini" src="@product.ImageUrl" />
+                        <p>@product.Name</p>
+                        <p>$@product.Price </p>
+                    </a>
+                    <form asp-controller="Orders" asp-action="OrderProduct" method="post">
+                        <input hidden name="productId" value="@product.Id" />
+                        <input hidden name="shopId" value="@Model.Id" />
+                        <input type="submit" value="Buy" class="btn btn-primary" />
+                    </form>
+                </div>
             }
         </div>
         <div>
-            <form asp-controller="Comments" asp-action="AddCommentToShop" method="post">
-                <div class="form-group">
-                    <textarea type="" name="commnetContent" placeholder="Comment..."></textarea>
-                    <input hidden name="shopId" value="@Model.Id" />
-                </div>
-                <div class="form-group">
-                    <input type="submit" value="Add Comment" class="btn btn-primary" />
-                </div>
-            </form>
+            <div>
+                <h5>Shop Producers:</h5>
+                @foreach (var p in Model.Producers)
+                {
+                    <p class="d-inline col-5">@p.Username</p>
+                }
+            </div>
+        </div>
+
+        <div>
+            @if (userIsProducerInShop)
+            {
+                <h4>Add some of your's product in this shop</h4>
+                <form asp-controller="Products" asp-action="AddProductToShop" method="post">
+                    <div class="form-group">
+                        <select class=" d-inline form-control col-6" name="productId" asp-items="currentUserProducts">
+                            <option selected disabled>Select shop</option>
+                        </select>
+                        <button class="btn-primary d-inline form-control col-2" name="shopId" value="@Model.Id">Add product</button>
+                    </div>
+                </form>
+
+                <h4>Add producer</h4>
+                <form asp-controller="Partneships" asp-action="SendRequestToProducer" method="post">
+                    <div class="form-group">
+                        <input class=" d-inline form-control col-6" type="text" name="username" placeholder="Producer Username..." />
+                        <button class="btn-primary d-inline form-control col-2" name="shopId" value="@Model.Id">Add producer</button>
+                    </div>
+                </form>
+            }
         </div>
     </div>
 </div>
+
+@*<div>
+        <div>
+            <h3>Shop @Model.Name Details</h3>
+        </div>
+        <h5>Shop Products:</h5>
+        <div class="row">
+            @foreach (var product in Model.Products)
+            {
+                <div class="d-inline">
+                    <a asp-controller="Products" asp-action="Details" asp-route-id="@product.Id">
+                        <img src="@product.ImageUrl" />
+                        <p>@product.Name</p>
+                        <p>$@product.Price </p>
+                    </a>
+                    <form asp-controller="Orders" asp-action="OrderProduct" method="post">
+                        <input hidden name="productId" value="@product.Id" />
+                        <input hidden name="shopId" value="@Model.Id" />
+                        <input type="submit" value="Add to Order" class="btn btn-primary" />
+                    </form>
+                </div>
+            }
+        </div>
+        <div>
+            <h3>Order:</h3>
+            @foreach (var order in producerOrders)
+            {
+                <p>Confirm order from @order.User.Username user, for @order.Product.Name product.</p>
+                <div>
+                    <form asp-controller="Orders" asp-action="ShopConfirmOrder">
+                        <button type="submit" name="id" value="@order.Id">Confirm</button>
+                    </form>
+                    <form>
+                        <input type="submit" value="Reject" />
+                    </form>
+                </div>
+            }
+
+        </div>
+        <div>
+            <h5>Shop Producers:</h5>
+            @foreach (var p in Model.Producers)
+            {
+                <p>@p.Username</p>
+            }
+        </div>
+        <div>
+            @if (userCanAddProduct)
+            {
+                <form asp-controller="Products" asp-action="AddProductToShop" method="post">
+                    <div class="form-group">
+                        <select name="productId" asp-items="currentUserProducts"></select>
+                        <input hidden name="shopId" value="@Model.Id" />
+                    </div>
+
+                    <div class="form-group">
+                        <input type="submit" value="AddToShop" class="btn btn-primary" />
+                    </div>
+                </form>
+
+                <form asp-controller="Partneships" asp-action="SendRequestToProducer" method="post">
+                    <div class="form-group">
+                        <input type="text" name="username" />
+                        <input hidden name="shopId" value="@Model.Id" />
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Add producer to @Model.Name shop" class="btn btn-primary" />
+                    </div>
+                </form>
+            }
+        </div>
+        <div>
+            <div>
+                @foreach (var comment in Model.Comments)
+                {
+                    <p>@comment</p>
+                }
+            </div>
+            <div>
+                <form asp-controller="Comments" asp-action="AddCommentToShop" method="post">
+                    <div class="form-group">
+                        <textarea type="" name="commnetContent" placeholder="Comment..."></textarea>
+                        <input hidden name="shopId" value="@Model.Id" />
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Add Comment" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>*@
 
 
 @section Scripts {

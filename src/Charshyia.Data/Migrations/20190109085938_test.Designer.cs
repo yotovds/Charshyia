@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Charshyia.Data.Migrations
 {
     [DbContext(typeof(CharshyiaDbContext))]
-    [Migration("20190108154852_test")]
+    [Migration("20190109085938_test")]
     partial class test
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
