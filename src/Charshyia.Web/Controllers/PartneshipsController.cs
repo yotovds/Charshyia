@@ -20,6 +20,7 @@ namespace Charshyia.Web.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> SendRequestToProducer(string username, int shopId)
         {
             var fromUser = this.CurrentUser;
@@ -31,6 +32,7 @@ namespace Charshyia.Web.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult ResponseToPartnership(int partnershipResponse, int partnershipId)
         {
             this.partnershipService.ResponseToParthership(partnershipResponse, partnershipId);

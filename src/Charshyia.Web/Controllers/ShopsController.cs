@@ -27,6 +27,7 @@ namespace Charshyia.Web.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(ShopCreateInputModel inputModel)
         {
             var shopId = await this.shopService.CreateShopAsync(inputModel, this.CurrentUser.Id);
@@ -41,6 +42,7 @@ namespace Charshyia.Web.Controllers
         }        
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddProduct(int shopId, int productId)
         {
             await this.shopService.AddProductToShopAsync(shopId, productId);

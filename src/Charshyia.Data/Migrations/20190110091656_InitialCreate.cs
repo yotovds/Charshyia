@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Charshyia.Data.Migrations
 {
-    public partial class test : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -163,7 +163,8 @@ namespace Charshyia.Data.Migrations
                     Price = table.Column<decimal>(nullable: false),
                     Description = table.Column<string>(nullable: true),
                     ImageUrl = table.Column<string>(nullable: true),
-                    ProducerId = table.Column<string>(nullable: true)
+                    ProducerId = table.Column<string>(nullable: true),
+                    Category = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {

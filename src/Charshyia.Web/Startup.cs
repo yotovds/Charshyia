@@ -59,6 +59,8 @@ namespace Charshyia.Web
                 options.Password.RequireUppercase = false;
             });
 
+            services.AddAntiforgery();
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.ConfigureApplicationCookie(options =>
@@ -136,9 +138,9 @@ namespace Charshyia.Web
                     template: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
             });
 
-            // Add amin and user roles
+            // Add roles
             this.CreateUserRoles(services).GetAwaiter().GetResult();
-            this.SeedData(services);
+            //this.SeedData(services);
         }
 
         private async Task CreateUserRoles(IServiceProvider serviceProvider)
@@ -164,53 +166,53 @@ namespace Charshyia.Web
             //await UserManager.AddToRoleAsync(user, "Admin");
         }
 
-        private void SeedData(IServiceProvider services)
-        {
-            var db = services.GetService<CharshyiaDbContext>();
-            var userManager = services.GetService<UserManager<CharshyiaUser>>();
+        //private void SeedData(IServiceProvider services)
+        //{
+        //    var db = services.GetService<CharshyiaDbContext>();
+        //    var userManager = services.GetService<UserManager<CharshyiaUser>>();
 
-            if (db.Users.CountAsync().GetAwaiter().GetResult() == 0)
-            {
-                string[] userNames = { "Ivan", "Dragan", "Pesho", "Ju", "Minka" };
+        //    if (db.Users.CountAsync().GetAwaiter().GetResult() == 0)
+        //    {
+        //        string[] userNames = { "Ivan", "Dragan", "Pesho", "Ju", "Minka" };
 
-                for (int i = 0; i < userNames.Length; i++)
-                {
-                    var userProducer = new CharshyiaUser
-                    {
-                        UserName = userNames[i],
-                        Email = userNames[i] + "@mail.bg",
-                        PhoneNumber = "08966600" + i
-                    };
+        //        for (int i = 0; i < userNames.Length; i++)
+        //        {
+        //            var userProducer = new CharshyiaUser
+        //            {
+        //                UserName = userNames[i],
+        //                Email = userNames[i] + "@mail.bg",
+        //                PhoneNumber = "08966600" + i
+        //            };
 
-                    userManager.CreateAsync(userProducer, "123").GetAwaiter().GetResult();
-                    userManager.AddToRoleAsync(userProducer, "Producer").GetAwaiter().GetResult();
+        //            userManager.CreateAsync(userProducer, "123").GetAwaiter().GetResult();
+        //            userManager.AddToRoleAsync(userProducer, "Producer").GetAwaiter().GetResult();
 
-                    for (int j = 0; j < 10; j++)
-                    {
-                        var product = new Product
-                        {
-                            Name = userProducer.UserName + "Product" + j,
-                            Price = new Random().Next(5, 1000),
-                            Description = "DescriptionDescriptionDescription",
-                            ProducerId = userProducer.Id,
-                            ImageUrl = "https://res.cloudinary.com/dr8axwivq/image/upload/v1546794753/test.jpg"
-                    };
+        //            for (int j = 0; j < 10; j++)
+        //            {
+        //                var product = new Product
+        //                {
+        //                    Name = userProducer.UserName + "Product" + j,
+        //                    Price = new Random().Next(5, 1000),
+        //                    Description = "DescriptionDescriptionDescription",
+        //                    ProducerId = userProducer.Id,
+        //                    ImageUrl = "https://res.cloudinary.com/dr8axwivq/image/upload/v1546794753/test.jpg"
+        //            };
 
-                        db.Products.Add(product);
-                    }
-                    db.SaveChanges();
+        //                db.Products.Add(product);
+        //            }
+        //            db.SaveChanges();
 
-                    var user = new CharshyiaUser
-                    {
-                        UserName =  userNames[i] + i,
-                        Email = userNames[i] + "@mail.bg",
-                        PhoneNumber = "08966600" + i
-                    };
+        //            var user = new CharshyiaUser
+        //            {
+        //                UserName =  userNames[i] + i,
+        //                Email = userNames[i] + "@mail.bg",
+        //                PhoneNumber = "08966600" + i
+        //            };
 
-                    userManager.CreateAsync(user, "123").GetAwaiter().GetResult();
-                    userManager.AddToRoleAsync(user, "User").GetAwaiter().GetResult();
-                }
-            }           
-        }
+        //            userManager.CreateAsync(user, "123").GetAwaiter().GetResult();
+        //            userManager.AddToRoleAsync(user, "User").GetAwaiter().GetResult();
+        //        }
+        //    }           
+        //}
     }
 }

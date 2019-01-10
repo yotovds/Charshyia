@@ -20,6 +20,8 @@ namespace Charshyia.Web.Controllers
         }
 
         [HttpPost]
+
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> OrderProduct(int productId, int shopId)
         {
             var orderId = await this.orderService.CreateOrderAsync(productId, shopId, CurrentUser);
@@ -33,6 +35,7 @@ namespace Charshyia.Web.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult UserConfirmOrder(int id)
         {
             this.orderService.UserConfirmOrder(id);
@@ -41,6 +44,7 @@ namespace Charshyia.Web.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult ProducerConfirmOrder(int id)
         {            
             var shopId = this.orderService.ProducerConfirmOrder(id, CurrentUser);
@@ -49,6 +53,7 @@ namespace Charshyia.Web.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult ShopConfirmOrder(int id)
         {
             var shopId = this.orderService.ShopConfirmOrder(id, CurrentUser);

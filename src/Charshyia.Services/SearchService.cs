@@ -19,12 +19,33 @@ namespace Charshyia.Services
 
         public List<ProductDetailsViewModel> Search(string productName, ProductCategory category)
         {
-            var results = this.DbContext
+            if (category == 0)
+            {
+                var results = this.DbContext
+                .Products
+                .Where(p => p.Name.Contains(productName))
+                .ToList();
+
+                return this.Mapper.Map<List<ProductDetailsViewModel>>(results);
+            }
+            else if(string.IsNullOrWhiteSpace(productName))
+            {
+                var results = this.DbContext
+                .Products
+                .Where(p => p.Category == category)
+                .ToList();
+
+                return this.Mapper.Map<List<ProductDetailsViewModel>>(results);
+            }
+            else
+            {
+                var results = this.DbContext
                 .Products
                 .Where(p => p.Name.Contains(productName) && p.Category == category)
                 .ToList();
 
-            return this.Mapper.Map<List<ProductDetailsViewModel>>(results);
+                return this.Mapper.Map<List<ProductDetailsViewModel>>(results);
+            }            
         }
     }
 }
